@@ -4,14 +4,17 @@
 
 The
 [aws-marketplace-evaluation](https://github.com/Senzing/aws-marketplace-evaluation)
-AWS Cloudformation template creates an AWS VPC
-and Aurora Postgres serverless database deployment.
-The Cloudformation does not deploy Senzing.
-Rather, it deploys a database than can be used by other AWS Cloudformations
-which do deploy Senzing such as
-[aws-cloudformation-ecs-senzing-stack-basic](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-basic).
+... (FIXME:)
 
 ## Overview
+
+The AWS Marketplace evaluation cloudformation templates
+... (FIXME:)
+
+The AWS Marketplace evaluation cloudformation templates:
+
+1. [cloudformation-senzing-database](#cloudformation-senzing-database) - Creates a persistence layer for the Senzing Model.
+1. [cloudformation-senzing-basic](#cloudformation-senzing-basic) - Brings up the Senzing Engine for demonstration.
 
 ### Contents
 
@@ -77,6 +80,10 @@ The following diagram shows a simplified representation of this deployment.
 
 ![Image of architecture](img/architecture-database.png)
 
+This docker formation uses up the following docker containers:
+
+1. *[senzing/postgresql-client](https://github.com/Senzing/postgresql-client)*
+
 #### Launch cloudformation-senzing-database
 
 1. :warning: **Warning:** This Cloudformation deployment will accrue AWS costs.
@@ -101,12 +108,38 @@ The following diagram shows a simplified representation of this deployment.
         1. Check ":ballot_box_with_check: I acknowledge that AWS CloudFormation might create IAM resources."
     1. At lower-right, click "Create stack" button.
 
+#### Review cloudformation-senzing-database
+
+The AWS resources created by the
+[cloudformation.yaml](https://github.com/Senzing/aws-cloudformation-database-cluster/blob/main/cloudformation.yaml)
+template can be see in the [AWS Management Console](https://console.aws.amazon.com).
+
+1. CloudFormation
+    1. [Stacks](https://console.aws.amazon.com/cloudformation/home?#/stacks)
+1. CloudWatch
+    1. [Log groups](https://console.aws.amazon.com/cloudwatch/home?#logsV2:log-groups)
+1. Elastic Compute Cloud (EC2)
+    1. [Network interfaces](https://console.aws.amazon.com/ec2/v2/home?#NIC)
+1. Identity and Access Management (IAM)
+    1. [Roles](https://console.aws.amazon.com/iam/home?#/roles)
+1. Relational Data Service (RDS)
+    1. [Databases](https://console.aws.amazon.com/rds/home?#databases:)
+    1. [Parameter groups](https://console.aws.amazon.com/rds/home?#parameter-groups:)
+    1. [Subnet groups](https://console.aws.amazon.com/rds/home?#db-subnet-groups-list:)
+1. Virtual Private Cloud (VPC)
+    1. [Internet gateways](https://console.aws.amazon.com/vpc/home?#igws)
+    1. [Network ACLs](https://console.aws.amazon.com/vpc/home?#acls)
+    1. [Route Tables](https://console.aws.amazon.com/vpc/home?#RouteTables)
+    1. [Security Groups](https://console.aws.amazon.com/vpc/home?#SecurityGroups)
+    1. [Subnets](https://console.aws.amazon.com/vpc/home?#subnets)
+    1. [VPCs](https://console.aws.amazon.com/vpc/home?#vpcs)
+
 #### Using cloudformation-senzing-database
 
 1. By itself, this deployment doesn't do much.
    It is simply the database deployment to be used by subsequent Cloudformations.
 1. Example subsequent deployments:
-    1. [cloudformation-senzing-basic](https://github.com/Senzing/aws-marketplace-evaluation)
+    1. [cloudformation-senzing-basic](#cloudformation-senzing-basic)
 
 ### cloudformation-senzing-basic
 
@@ -146,9 +179,12 @@ Arrows represent data flow.
 
 ![Image of architecture](img/architecture-senzing-basic.png)
 
-This docker formation brings up the following docker containers:
+This docker formation uses the following docker containers:
 
+1. *[busybox](https://hub.docker.com/_/busybox)*
 1. *[senzing/entity-web-search-app](https://github.com/Senzing/entity-search-web-app)*
+1. *[senzing/g2configtool](https://github.com/Senzing/docker-g2configtool)*
+1. *[senzing/init-container](https://github.com/Senzing/docker-init-container)*
 1. *[senzing/jupyter](https://github.com/Senzing/docker-jupyter)*
 1. *[senzing/redoer](https://github.com/Senzing/redoer)*
 1. *[senzing/senzing-api-server](https://github.com/Senzing/senzing-api-server)*
@@ -156,6 +192,8 @@ This docker formation brings up the following docker containers:
 1. *[senzing/stream-loader](https://github.com/Senzing/stream-loader)*
 1. *[senzing/stream-producer](https://github.com/Senzing/stream-producer)*
 1. *[senzing/xterm](https://github.com/Senzing/docker-xterm)*
+1. *[senzing/yum](https://github.com/Senzing/docker-yum)*
+1. *[swaggerapi/swagger-ui](https://github.com/swagger-api/swagger-ui)*
 
 GitHub repository for
 [aws-cloudformation-ecs-senzing-stack-basic](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-basic).
