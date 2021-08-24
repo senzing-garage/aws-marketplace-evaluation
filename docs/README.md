@@ -61,7 +61,7 @@ The
 [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
 AWS Cloudformation template creates the following resources:
 
-1. AWS infrastructure created by `cloudformation-senzing-database.yaml`
+1. AWS infrastructure
     1. VPC
     1. Subnets
     1. IP address and NAT Gateway
@@ -83,7 +83,7 @@ The following diagram shows a simplified representation of this deployment.
    With appropriate permissions, the
    [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/)
    can help evaluate costs.
-1. Visit [AWS Cloudformation with Senzing template](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=senzing-db&templateURL=https://s3.amazonaws.com/public-read-access/aws-cloudformation-senzing-database-cluster/cloudformation.yaml)
+1. Visit [AWS Cloudformation with Senzing template](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=senzing-db&templateURL=https://s3.amazonaws.com/public-read-access/cloudformation-senzing-database/cloudformation-senzing-database.yaml)
 1. At lower-right, click on "Next" button.
 1. In **Specify stack details**
     1. In **Parameters**
@@ -106,9 +106,7 @@ The following diagram shows a simplified representation of this deployment.
 1. By itself, this deployment doesn't do much.
    It is simply the database deployment to be used by subsequent Cloudformations.
 1. Example subsequent deployments:
-    1. [aws-cloudformation-ecs-senzing-stack-basic](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-basic)
-    1. [aws-cloudformation-ecs-senzing-stack-choices](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-choices)
-    1. [aws-marketplace-evaluation](https://github.com/Senzing/aws-marketplace-evaluation)
+    1. [cloudformation-senzing-basic](https://github.com/Senzing/aws-marketplace-evaluation)
 
 ### cloudformation-senzing-basic
 
@@ -146,7 +144,7 @@ AWS Cloudformation template creates the following resources:
 The following diagram shows the relationship of the docker containers in this docker composition.
 Arrows represent data flow.
 
-![Image of architecture](architecture-senzing-basic.png)
+![Image of architecture](img/architecture-senzing-basic.png)
 
 This docker formation brings up the following docker containers:
 
