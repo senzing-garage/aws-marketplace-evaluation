@@ -11,7 +11,7 @@ The
 The AWS Marketplace evaluation cloudformation templates
 ... (FIXME:)
 
-The AWS Marketplace evaluation cloudformation templates:
+Available AWS Marketplace evaluation cloudformation templates:
 
 1. [cloudformation-senzing-database](#cloudformation-senzing-database) - Creates a persistence layer for the Senzing Model.
 1. [cloudformation-senzing-basic](#cloudformation-senzing-basic) - Brings up the Senzing Engine for demonstration.
@@ -111,7 +111,7 @@ This docker formation uses up the following docker containers:
 #### Review cloudformation-senzing-database
 
 The AWS resources created by the
-[cloudformation.yaml](https://github.com/Senzing/aws-cloudformation-database-cluster/blob/main/cloudformation.yaml)
+[cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
 template can be see in the [AWS Management Console](https://console.aws.amazon.com).
 
 1. CloudFormation
@@ -195,9 +195,6 @@ This docker formation uses the following docker containers:
 1. *[senzing/yum](https://github.com/Senzing/docker-yum)*
 1. *[swaggerapi/swagger-ui](https://github.com/swagger-api/swagger-ui)*
 
-GitHub repository for
-[aws-cloudformation-ecs-senzing-stack-basic](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-basic).
-
 #### Launch cloudformation-senzing-basic
 
 1. :warning: **Warning:** This Cloudformation deployment will accrue AWS costs.
@@ -237,7 +234,7 @@ GitHub repository for
 #### Review cloudformation-senzing-basic
 
 The AWS resources created by the
-[cloudformation.yaml](https://github.com/Senzing/aws-cloudformation-senzing-database-cluster/blob/main/cloudformation.yaml)
+[cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
 template can be see in the [AWS Management Console](https://console.aws.amazon.com).
 
 1. CloudFormation
