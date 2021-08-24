@@ -13,9 +13,13 @@ which do deploy Senzing such as
 
 ## Overview
 
-The `aws-cloudformation-database-cluster` AWS Cloudformation template creates the following resources:
+### cloudformation-database
 
-1. AWS infrastructure
+The 
+[cloudformation-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-database.yaml)
+AWS Cloudformation template creates the following resources:
+
+1. AWS infrastructure created by `cloudformation-database.yaml`
     1. VPC
     1. Subnets
     1. IP address and NAT Gateway
@@ -29,10 +33,46 @@ The `aws-cloudformation-database-cluster` AWS Cloudformation template creates th
 
 The following diagram shows a simplified representation of this deployment.
 
+![Image of architecture](img/architecture.png)
+
+### cloudformation-senzing-basic
+
+The
+[cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+AWS Cloudformation template creates the following resources:
+
+1. AWS infrastructure
+    1. Elastic IP address
+    1. IAM Roles, Policies, and Certificates
+    1. Loadbalancers
+    1. Logging
+    1. NAT Gateway
+    1. Routes
+    1. Security Groups
+    1. Subnets
+1. AWS services
+    1. AWS Cognito
+    1. AWS Elastic Container Service (ECS) Fargate
+    1. AWS Elastic File System (EFS)
+    1. AWS Simple Queue Service (SQS)
+1. Senzing services
+    1. Senzing API server
+    1. Senzing Entity Search Web App
+    1. Senzing Redoer
+    1. Senzing SSH access
+    1. Senzing Stream-Loader
+    1. Senzing Xterm
+    1. SwaggerUI
+1. Optional services:
+    1. Senzing Stream-producer
+
+The following diagram shows the relationship of the docker containers in this docker composition.
+Arrows represent data flow.
+
 ![Image of architecture](architecture.png)
 
-GitHub repository for
-[aws-cloudformation-database-cluster](https://github.com/Senzing/aws-cloudformation-database-cluster).
+
+
 
 ### Contents
 
@@ -120,16 +160,38 @@ template can be see in the [AWS Management Console](https://console.aws.amazon.c
     1. [Stacks](https://console.aws.amazon.com/cloudformation/home?#/stacks)
 1. CloudWatch
     1. [Log groups](https://console.aws.amazon.com/cloudwatch/home?#logsV2:log-groups)
+1. Cognito
+    1. [UserPool](https://console.aws.amazon.com/cognito/users/#/pool/u)
 1. Elastic Compute Cloud (EC2)
+    1. [Load Balancers](https://console.aws.amazon.com/ec2/v2/home?#LoadBalancers:)
     1. [Network interfaces](https://console.aws.amazon.com/ec2/v2/home?#NIC)
+    1. [Target groups](https://console.aws.amazon.com/ec2/v2/home?#TargetGroups:)
+1. Elastic Container Service (ECS)
+    1. [Clusters](https://console.aws.amazon.com/ecs/home?#/clusters)
+    1. [Task Definitions](https://console.aws.amazon.com/ecs/home?#/taskDefinitions)
+1. Elastic File System (EFS)
+    1. [File systems](https://console.aws.amazon.com/efs/home?#/filesystems)
 1. Identity and Access Management (IAM)
+    1. Certificates
+    1. [Policies](https://console.aws.amazon.com/iam/home?#/policies)
     1. [Roles](https://console.aws.amazon.com/iam/home?#/roles)
+1. Lambda
+    1. [Functions](https://console.aws.amazon.com/lambda/home?#/functions)
 1. Relational Data Service (RDS)
     1. [Databases](https://console.aws.amazon.com/rds/home?#databases:)
     1. [Parameter groups](https://console.aws.amazon.com/rds/home?#parameter-groups:)
     1. [Subnet groups](https://console.aws.amazon.com/rds/home?#db-subnet-groups-list:)
+1. Route53
+    1. [RecordSet](https://console.aws.amazon.com/route53/v2/hostedzones#)
+1. Simple Queue Service (SQS)
+    1. [Queues](https://console.aws.amazon.com/sqs/v2/home)
+1. System Manager Agent (SSM)
+    1. [Parameter store](https://console.aws.amazon.com/systems-manager/parameters)
 1. Virtual Private Cloud (VPC)
+    1. [Elastic IP addresses](https://console.aws.amazon.com/vpc/home?#Addresses:)
+    1. [Endpoints](https://console.aws.amazon.com/vpc/home?#Endpoints:)
     1. [Internet gateways](https://console.aws.amazon.com/vpc/home?#igws)
+    1. [NAT gateways](https://console.aws.amazon.com/vpc/home?#NatGateways:)
     1. [Network ACLs](https://console.aws.amazon.com/vpc/home?#acls)
     1. [Route Tables](https://console.aws.amazon.com/vpc/home?#RouteTables)
     1. [Security Groups](https://console.aws.amazon.com/vpc/home?#SecurityGroups)
