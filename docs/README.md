@@ -3,7 +3,7 @@
 ## Synopsis
 
 The
-[aws-cloudformation-database-cluster](https://github.com/Senzing/aws-cloudformation-database-cluster)
+[aws-marketplace-evaluation](https://github.com/Senzing/aws-marketplace-evaluation)
 AWS Cloudformation template creates an AWS VPC
 and Aurora Postgres serverless database deployment.
 The Cloudformation does not deploy Senzing.
@@ -13,9 +13,51 @@ which do deploy Senzing such as
 
 ## Overview
 
+### Contents
+
+1. [Preamble](#preamble)
+    1. [Legend](#legend)
+1. [Expectations](#expectations)
+1. [Cloudformations](#cloudformations)
+    1. [cloudformation-database](#cloudformation-database)
+    1. [cloudformation-senzing-basic](#cloudformation-senzing-basic)
+1. [Additional topics](#additional-topics)
+1. [Parameters](#parameters)
+1. [Outputs](#outputs)
+
+## Preamble
+
+At [Senzing](http://senzing.com),
+we strive to create GitHub documentation in a
+"[don't make me think](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/dont-make-me-think.md)" style.
+For the most part, instructions are copy and paste.
+Whenever thinking is needed, it's marked with a "thinking" icon :thinking:.
+Whenever customization is needed, it's marked with a "pencil" icon :pencil2:.
+If the instructions are not clear, please let us know by opening a new
+[Documentation issue](https://github.com/Senzing/aws-marketplace-evaluation/issues/new?template=documentation_request.md)
+describing where we can improve.   Now on with the show...
+
+### Legend
+
+1. :thinking: - A "thinker" icon means that a little extra thinking may be required.
+   Perhaps there are some choices to be made.
+   Perhaps it's an optional step.
+1. :pencil2: - A "pencil" icon means that the instructions may need modification before performing.
+1. :warning: - A "warning" icon means that something tricky is happening, so pay attention.
+
+## Expectations
+
+- **Time:** Budget 40 minutes to get the demonstration up-and-running.
+- **Background knowledge:** This repository assumes a working knowledge of:
+  - [AWS Cloudformation](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/aws-cloudformation.md)
+
+## Cloudformations
+
 ### cloudformation-database
 
-The 
+#### Overview of cloudformation-database
+
+The
 [cloudformation-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-database.yaml)
 AWS Cloudformation template creates the following resources:
 
@@ -35,7 +77,42 @@ The following diagram shows a simplified representation of this deployment.
 
 ![Image of architecture](img/architecture.png)
 
+#### Launch cloudformation-database
+
+1. :warning: **Warning:** This Cloudformation deployment will accrue AWS costs.
+   With appropriate permissions, the
+   [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/)
+   can help evaluate costs.
+1. Visit [AWS Cloudformation with Senzing template](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=senzing-db&templateURL=https://s3.amazonaws.com/public-read-access/aws-cloudformation-database-cluster/cloudformation.yaml)
+1. At lower-right, click on "Next" button.
+1. In **Specify stack details**
+    1. In **Parameters**
+        1. In **Senzing installation**
+            1. If speed is desired over lower cost, choose "Multiple".
+            1. If lower cost is desired over speed, choose "Single".
+        1. In **Security responsibility**
+            1. Understand the nature of the security in the deployment.
+            1. Once understood, enter "I AGREE".
+    1. At lower-right, click "Next" button.
+1. In **Configure stack options**
+    1. At lower-right, click "Next" button.
+1. In **Review senzing-db**
+    1. Near the bottom, in **Capabilities**
+        1. Check ":ballot_box_with_check: I acknowledge that AWS CloudFormation might create IAM resources."
+    1. At lower-right, click "Create stack" button.
+
+#### Using cloudformation-database
+
+1. By itself, this deployment doesn't do much.
+   It is simply the database deployment to be used by subsequent Cloudformations.
+1. Example subsequent deployments:
+    1. [aws-cloudformation-ecs-senzing-stack-basic](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-basic)
+    1. [aws-cloudformation-ecs-senzing-stack-choices](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-choices)
+    1. [aws-marketplace-evaluation](https://github.com/Senzing/aws-marketplace-evaluation)
+
 ### cloudformation-senzing-basic
+
+#### Overview of cloudformation-senzing-basic
 
 The
 [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
@@ -71,86 +148,57 @@ Arrows represent data flow.
 
 ![Image of architecture](architecture.png)
 
+This docker formation brings up the following docker containers:
 
+1. *[senzing/entity-web-search-app](https://github.com/Senzing/entity-search-web-app)*
+1. *[senzing/jupyter](https://github.com/Senzing/docker-jupyter)*
+1. *[senzing/redoer](https://github.com/Senzing/redoer)*
+1. *[senzing/senzing-api-server](https://github.com/Senzing/senzing-api-server)*
+1. *[senzing/sshd](https://github.com/Senzing/docker-sshd)*
+1. *[senzing/stream-loader](https://github.com/Senzing/stream-loader)*
+1. *[senzing/stream-producer](https://github.com/Senzing/stream-producer)*
+1. *[senzing/xterm](https://github.com/Senzing/docker-xterm)*
 
+GitHub repository for
+[aws-cloudformation-ecs-senzing-stack-basic](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-basic).
 
-### Contents
-
-1. [Preamble](#preamble)
-    1. [Legend](#legend)
-1. [Expectations](#expectations)
-1. [Demonstrate using AWS Console](#demonstrate-using-aws-console)
-1. [Using deployment](#using-deployment)
-1. [Additional topics](#additional-topics)
-1. [Parameters](#parameters)
-1. [Outputs](#outputs)
-
-## Preamble
-
-At [Senzing](http://senzing.com),
-we strive to create GitHub documentation in a
-"[don't make me think](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/dont-make-me-think.md)" style.
-For the most part, instructions are copy and paste.
-Whenever thinking is needed, it's marked with a "thinking" icon :thinking:.
-Whenever customization is needed, it's marked with a "pencil" icon :pencil2:.
-If the instructions are not clear, please let us know by opening a new
-[Documentation issue](https://github.com/Senzing/aws-marketplace-evaluation/issues/new?template=documentation_request.md)
-describing where we can improve.   Now on with the show...
-
-### Legend
-
-1. :thinking: - A "thinker" icon means that a little extra thinking may be required.
-   Perhaps there are some choices to be made.
-   Perhaps it's an optional step.
-1. :pencil2: - A "pencil" icon means that the instructions may need modification before performing.
-1. :warning: - A "warning" icon means that something tricky is happening, so pay attention.
-
-## Expectations
-
-- **Time:** Budget 40 minutes to get the demonstration up-and-running.
-- **Background knowledge:** This repository assumes a working knowledge of:
-  - [AWS Cloudformation](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/aws-cloudformation.md)
-
-## Demonstrate using AWS Console
-
-### Launch AWS Cloudformation
+#### Launch cloudformation-senzing-basic
 
 1. :warning: **Warning:** This Cloudformation deployment will accrue AWS costs.
    With appropriate permissions, the
    [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/)
    can help evaluate costs.
-1. Visit [AWS Cloudformation with Senzing template](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=senzing-db&templateURL=https://s3.amazonaws.com/public-read-access/aws-cloudformation-database-cluster/cloudformation.yaml)
+1. Visit [AWS Cloudformation with Senzing template](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=senzing-basic&templateURL=https://s3.amazonaws.com/public-read-access/aws-cloudformation-ecs-senzing-stack-basic/cloudformation.yaml)
 1. At lower-right, click on "Next" button.
 1. In **Specify stack details**
     1. In **Parameters**
-        1. In **Senzing installation**
-            1. If speed is desired over lower cost, choose "Multiple".
-            1. If lower cost is desired over speed, choose "Single".
         1. In **Security responsibility**
             1. Understand the nature of the security in the deployment.
             1. Once understood, enter "I AGREE".
+        1. In **Senzing installation**
+            1. Accept the End User License Agreement
+        1. In **Security**
+            1. Enter your email address.  Example: `me@example.com`
+            1. Enter a
+               [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)
+               that allows access from certain IP Addresses.
+               For instance `0.0.0.0/0` allows access from anywhere,
+               but is considered insecure.
+               `1.2.3.4/32` allows access from only one IP address, `1.2.3.4`.
+        1. In **Identify existing resources**
+            1. Enter the stack name of the previously deployed
+               [aws-cloudformation-database-cluster](https://github.com/Senzing/aws-cloudformation-database-cluster)
+               Cloudformation stack.
+               Example:  `senzing-db`
     1. At lower-right, click "Next" button.
 1. In **Configure stack options**
     1. At lower-right, click "Next" button.
-1. In **Review senzing-db**
+1. In **Review senzing-basic**
     1. Near the bottom, in **Capabilities**
         1. Check ":ballot_box_with_check: I acknowledge that AWS CloudFormation might create IAM resources."
     1. At lower-right, click "Create stack" button.
 
-## Using deployment
-
-1. By itself, this deployment doesn't do much.
-   It is simply the database deployment to be used by subsequent Cloudformations.
-1. Example subsequent deployments:
-    1. [aws-cloudformation-ecs-senzing-stack-basic](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-basic)
-    1. [aws-cloudformation-ecs-senzing-stack-choices](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-choices)
-    1. [aws-marketplace-evaluation](https://github.com/Senzing/aws-marketplace-evaluation)
-
-## Additional topics
-
-1. [How to migrate an AWS RDS database](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/migrate-aws-rds-database.md)
-
-### Review AWS Cloudformation
+#### Review cloudformation-senzing-basic
 
 The AWS resources created by the
 [cloudformation.yaml](https://github.com/Senzing/aws-cloudformation-database-cluster/blob/main/cloudformation.yaml)
@@ -198,12 +246,34 @@ template can be see in the [AWS Management Console](https://console.aws.amazon.c
     1. [Subnets](https://console.aws.amazon.com/vpc/home?#subnets)
     1. [VPCs](https://console.aws.amazon.com/vpc/home?#vpcs)
 
-### View results
+#### Using deployment for cloudformation-senzing-basic
+
+1. Visit [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation/home).
+    1. Make sure correct AWS region is selected.
+1. Wait until "senzing-basic" status is `CREATE_COMPLETE`.
+    1. Senzing formation takes about 20 minutes to fully deploy.
+    1. May have to hit the refresh button a few times to get updated information.
+1. Click on "senzing-basic" stack.
+1. Click on "Outputs" tab.
+1. Open the "0penFirst" value in a new web browser tab or window.
+    1. Because this uses a self-signed certificate, a warning will come up in your browser.  Simply continue.
+    1. In the "Sign in with your email and password" dialog box, enter the *UserName* and *UserInitPassword*
+       values seen in the "Output" tab of the "senzing-basic" stack.  This is a one-time password.
+    1. In **Change Password**, enter a new password.
+
+#### View cloudformation-senzing-basic
 
 1. Visit [AWS Cloudformation console](https://console.aws.amazon.com/cloudformation/home).
 1. Choose appropriate "Stack name"
 1. Choose "Outputs" tab.
     1. For descriptions of outputs, visit [Outputs](#outputs) further down this page.
+
+## Additional topics
+
+1. [How to migrate an AWS RDS database](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/migrate-aws-rds-database.md)
+1. [How to load AWS Cloudformation queue](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/load-aws-cloudformation-queue.md)
+1. [How to migrate Senzing in AWS Cloudformation](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/migrate-senzing-in-cloudformation.md)
+1. [How to update Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/update-senzing-license.md)
 
 ## Parameters
 
