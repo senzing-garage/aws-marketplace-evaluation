@@ -4,16 +4,20 @@
 
 The
 [aws-marketplace-evaluation](https://github.com/Senzing/aws-marketplace-evaluation)
-... (FIXME:)
+AWS Cloudformation Templates demonstrate a Senzing stack on the AWS platform
+using AWS services such as Aurora Postgres database, SQS, and ECS.
+The docker images for these Senzing stacks are kept in the AWS Marketplace.
 
 ## Overview
 
-The AWS Marketplace evaluation cloudformation templates
-... (FIXME:)
+To begin, a database for holding persistent data is needed.
+This database is created using the
+[cloudformation-senzing-database](#cloudformation-senzing-database)
+cloudformation template.
 
-Available AWS Marketplace evaluation cloudformation templates:
+Once the database has been created, other cloudformation templates can be deployed
+using that database.  Available AWS Marketplace evaluation cloudformation templates:
 
-1. [cloudformation-senzing-database](#cloudformation-senzing-database) - Creates a persistence layer for the Senzing Model.
 1. [cloudformation-senzing-basic](#cloudformation-senzing-basic) - Brings up the Senzing Engine for demonstration.
 
 ### Contents
