@@ -219,7 +219,7 @@ Mappings:
       StreamLoader: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-loader-with-data:1.8.4
       StreamProducer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-producer:1.5.1
       Swagger: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/swagger-ui:v3.50.0
-      WebApp: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/entity-search-web-app:2.3.0
+      WebApp: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/entity-search-web-app:2.3.1
       Xterm: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/xterm:1.1.3
       Yum: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/yum:1.1.6
     Run:
