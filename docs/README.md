@@ -10,10 +10,14 @@ The docker images for these Senzing stacks are kept in the AWS Marketplace.
 
 ## Overview
 
+### Database stack
+
 To begin, a database for holding persistent data is needed.
 This database is created using the
 [cloudformation-senzing-database](#cloudformation-senzing-database)
 cloudformation template.
+
+### Senzing stacks
 
 Once the database has been created, other cloudformation templates can be deployed
 using that database.  Available AWS Marketplace evaluation cloudformation templates:
@@ -224,7 +228,7 @@ This docker formation uses the following docker containers:
                `1.2.3.4/32` allows access from only one IP address, `1.2.3.4`.
         1. In **Identify existing resources**
             1. Enter the stack name of the previously deployed
-               [aws-cloudformation-senzing-database-cluster](https://github.com/Senzing/aws-cloudformation-senzing-database-cluster)
+               [cloudformation-senzing-database](#cloudformation-senzing-database)
                Cloudformation stack.
                Example:  `senzing-db`
     1. At lower-right, click "Next" button.
@@ -298,13 +302,6 @@ template can be see in the [AWS Management Console](https://console.aws.amazon.c
        values seen in the "Output" tab of the "senzing-basic" stack.  This is a one-time password.
     1. In **Change Password**, enter a new password.
 
-#### View cloudformation-senzing-basic
-
-1. Visit [AWS Cloudformation console](https://console.aws.amazon.com/cloudformation/home).
-1. Choose appropriate "Stack name"
-1. Choose "Outputs" tab.
-    1. For descriptions of outputs, visit [Outputs](#outputs) further down this page.
-
 ## Additional topics
 
 1. [How to migrate an AWS RDS database](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/migrate-aws-rds-database.md)
@@ -368,10 +365,10 @@ Technical information on AWS Cloudformation parameters can be seen at
 
 1. **Synopsis:**
    The name of the cloudformation stack deployed with the
-   [aws-cloudformation-senzing-database-cluster](https://github.com/Senzing/aws-cloudformation-senzing-database-cluster)
+   [cloudformation-senzing-database](#cloudformation-senzing-database)
    cloudformation template.
-   The DatabaseStack exported output values are used by the
-   [aws-cloudformation-ecs-senzing-stack-basic](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-basic).
+   The DatabaseStack exported output values are used by
+   [Senzing stacks](#senzing-stacks).
 1. **Required:** Yes
 1. **Type:** String
 1. **Example:** `senzing-db`
