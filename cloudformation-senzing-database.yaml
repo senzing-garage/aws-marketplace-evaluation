@@ -53,7 +53,7 @@ Parameters:
       - 'Single'
       - 'Multiple'
     Default: 'Multiple'
-    Description: 'Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#multipledatabases'
+    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/#multipledatabases'
     Type: String
 
 
@@ -61,7 +61,7 @@ Parameters:
     AllowedPattern: '.+|^I AGREE$'
     ConstraintDescription: SecurityResponsibility parameter must be 'I AGREE'
     Default: '_'
-    Description: 'Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#securityresponsibility'
+    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/#securityresponsibility'
     Type: String
 
 
@@ -1456,13 +1456,13 @@ Outputs:
 # AWS Console: https://console.aws.amazon.com/cloudformation/home?#/stacks > {stack} > Outputs
 
   AccountID:
-    Description: 'The AWS AccountID. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#accountid'
+    Description: 'The AWS AccountID. Help: https://hub.senzing.com/aws-marketplace-evaluation/#accountid'
     Export:
       Name: !Sub "${AWS::StackName}-account-id"
     Value: !Sub "${AWS::AccountId}"
 
   DatabaseHostCore:
-    Description: 'Hostname of the Core database. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#databasehostcore'
+    Description: 'Hostname of the Core database. Help: https://hub.senzing.com/aws-marketplace-evaluation/#databasehostcore'
     Export:
       Name: !Sub "${AWS::StackName}-database-host-core"
     Value: !If
@@ -1471,7 +1471,7 @@ Outputs:
       - !GetAtt RdsDbClusterCore.Endpoint.Address
 
   DatabaseHostLibfeat:
-    Description: 'Hostname of the Libfeat database. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#databasehostlibfeat'
+    Description: 'Hostname of the Libfeat database. Help: https://hub.senzing.com/aws-marketplace-evaluation/#databasehostlibfeat'
     Export:
       Name: !Sub "${AWS::StackName}-database-host-libfeat"
     Value: !If
@@ -1480,7 +1480,7 @@ Outputs:
       - !GetAtt RdsDbClusterLibfeat.Endpoint.Address
 
   DatabaseHostRes:
-    Description: 'Hostname of the Res database. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#databasehostres'
+    Description: 'Hostname of the Res database. Help: https://hub.senzing.com/aws-marketplace-evaluation/#databasehostres'
     Export:
       Name: !Sub "${AWS::StackName}-database-host-res"
     Value: !If
@@ -1489,19 +1489,19 @@ Outputs:
       - !GetAtt RdsDbClusterRes.Endpoint.Address
 
   DatabaseName:
-    Description: 'The name of the database. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#databasename'
+    Description: 'The name of the database. Help: https://hub.senzing.com/aws-marketplace-evaluation/#databasename'
     Export:
       Name: !Sub "${AWS::StackName}-database-name"
     Value: !FindInMap [Constants, Database, Name]
 
   DatabasePassword:
-    Description: 'The randomly generated password for the administrative user (DatabaseUsername). Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#databasepassword'
+    Description: 'The randomly generated password for the administrative user (DatabaseUsername). Help: https://hub.senzing.com/aws-marketplace-evaluation/#databasepassword'
     Export:
       Name: !Sub "${AWS::StackName}-database-password"
     Value: !GetAtt LambdaRunnerDbPassword.RandomString
 
   DatabasePortCore:
-    Description: 'The port number that will accept connections on the Core database. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#databaseportcore'
+    Description: 'The port number that will accept connections on the Core database. Help: https://hub.senzing.com/aws-marketplace-evaluation/#databaseportcore'
     Export:
       Name: !Sub "${AWS::StackName}-database-port-core"
     Value: !If
@@ -1510,7 +1510,7 @@ Outputs:
       - !GetAtt RdsDbClusterCore.Endpoint.Port
 
   DatabasePortLibfeat:
-    Description: 'The port number that will accept connections on the Libfeat database. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#databaseportlibfeat'
+    Description: 'The port number that will accept connections on the Libfeat database. Help: https://hub.senzing.com/aws-marketplace-evaluation/#databaseportlibfeat'
     Export:
       Name: !Sub "${AWS::StackName}-database-port-libfeat"
     Value: !If
@@ -1519,7 +1519,7 @@ Outputs:
       - !GetAtt RdsDbClusterLibfeat.Endpoint.Port
 
   DatabasePortRes:
-    Description: 'The port number that will accept connections on the Res database. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#databaseportres'
+    Description: 'The port number that will accept connections on the Res database. Help: https://hub.senzing.com/aws-marketplace-evaluation/#databaseportres'
     Export:
       Name: !Sub "${AWS::StackName}-database-port-res"
     Value: !If
@@ -1528,55 +1528,55 @@ Outputs:
       - !GetAtt RdsDbClusterRes.Endpoint.Port
 
   DatabaseUsername:
-    Description: 'The administrative user name. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#databaseusername'
+    Description: 'The administrative user name. Help: https://hub.senzing.com/aws-marketplace-evaluation/#databaseusername'
     Export:
       Name: !Sub "${AWS::StackName}-database-username"
     Value: !FindInMap [Constants, Database, Username]
 
   Ec2InternetGateway:
-    Description: 'Internet Gateway. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#ec2internetgateway'
+    Description: 'Internet Gateway. Help: https://hub.senzing.com/aws-marketplace-evaluation/#ec2internetgateway'
     Export:
       Name: !Sub "${AWS::StackName}-ec2-internet-gateway"
     Value: !Ref Ec2InternetGateway
 
   Ec2SecurityGroupInternal:
-    Description: 'The security group used internally. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#ec2securitygroupinternal'
+    Description: 'The security group used internally. Help: https://hub.senzing.com/aws-marketplace-evaluation/#ec2securitygroupinternal'
     Export:
       Name: !Sub "${AWS::StackName}-ec2-security-group-internal"
     Value: !Ref Ec2SecurityGroupInternal
 
   Ec2Vpc:
-    Description: 'The ID of the VPC. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#ec2vpc'
+    Description: 'The ID of the VPC. Help: https://hub.senzing.com/aws-marketplace-evaluation/#ec2vpc'
     Export:
       Name: !Sub "${AWS::StackName}-ec2-VpcId"
     Value: !Ref Ec2Vpc
 
   Ec2VpcCidrBlock:
-    Description: 'The CidrBloc of the VPC. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#ec2vpccidrblock'
+    Description: 'The CidrBloc of the VPC. Help: https://hub.senzing.com/aws-marketplace-evaluation/#ec2vpccidrblock'
     Export:
       Name: !Sub "${AWS::StackName}-ec2-VpcId-cidrblock"
     Value: !GetAtt Ec2Vpc.CidrBlock
 
   SubnetPrivate1:
-    Description: 'The ID of private subnet 1. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#subnetprivate1'
+    Description: 'The ID of private subnet 1. Help: https://hub.senzing.com/aws-marketplace-evaluation/#subnetprivate1'
     Export:
       Name: !Sub "${AWS::StackName}-subnet-private-1"
     Value: !Ref Ec2SubnetPrivate1
 
   SubnetPrivate2:
-    Description: 'The ID of private subnet 2. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#subnetprivate2'
+    Description: 'The ID of private subnet 2. Help: https://hub.senzing.com/aws-marketplace-evaluation/#subnetprivate2'
     Export:
       Name: !Sub "${AWS::StackName}-subnet-private-2"
     Value: !Ref Ec2SubnetPrivate2
 
   SubnetPublic1:
-    Description: 'The ID of public subnet 1. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#subnetpublic1'
+    Description: 'The ID of public subnet 1. Help: https://hub.senzing.com/aws-marketplace-evaluation/#subnetpublic1'
     Export:
       Name: !Sub "${AWS::StackName}-subnet-public-1"
     Value: !Ref Ec2SubnetPublic1
 
   SubnetPublic2:
-    Description: 'The ID of public subnet 2. Help: https://hub.senzing.com/aws-cloudformation-database-cluster/#subnetpublic2'
+    Description: 'The ID of public subnet 2. Help: https://hub.senzing.com/aws-marketplace-evaluation/#subnetpublic2'
     Export:
       Name: !Sub "${AWS::StackName}-subnet-public-2"
     Value: !Ref Ec2SubnetPublic2
