@@ -34,15 +34,15 @@ Metadata:
           - DatabaseStack
       -
         Label:
-          default: Security responsibility
-        Parameters:
-          - SecurityResponsibility
-      -
-        Label:
           default: Security
         Parameters:
           - CognitoAdminEmail
           - CidrInbound
+      -
+        Label:
+          default: Security responsibility
+        Parameters:
+          - SecurityResponsibility
     ParameterLabels:
       AcceptEula:
         default: >-
@@ -52,19 +52,19 @@ Metadata:
       CidrInbound:
         default: 'Required: Provide the permitted IP address block allowed to connect using CIDR notation.'
       DatabaseStack:
-        default: 'Required: Provide the name of stack containing Senzing database(s).'
+        default: 'Required: Provide the name of stack containing the Senzing database(s).'
       CognitoAdminEmail:
         default: 'Required: Provide the email address for the administrative user.'
+      SenzingLicenseAsBase64:
+        default: >-
+          The Senzing Evaluation comes with 100k free records of entity resolution.
+          If using more than 100k records, please input base 64 encoded license string.
       SecurityResponsibility:
         default: >-
-          Required: A default deployment of this template is for public demonstration only.
+          Required: A default deployment of this template is for demonstration only.
           Before using authentic PII, ensure the security of your deployment.
           The security of this deployment is your responsibility.
           To acknowledge your understanding and acceptance of the foregoing, type “I AGREE”.
-      SenzingLicenseAsBase64:
-        default: >-
-          The Senzing Evaluation comes with 100k free records of entity Resolution.
-          If using more than 100k records, please input base 64 encoded license string.
       SenzingVersion:
         default: 'Required: Version of Senzing to install.'
 
