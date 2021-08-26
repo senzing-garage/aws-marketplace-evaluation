@@ -21,7 +21,7 @@ Metadata:
     ParameterGroups:
       -
         Label:
-          default: Senzing installation
+          default: Select database cluster size
         Parameters:
           - MultipleDatabases
       -
