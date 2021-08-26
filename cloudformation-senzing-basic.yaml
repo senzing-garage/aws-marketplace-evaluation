@@ -22,11 +22,6 @@ Metadata:
     ParameterGroups:
       -
         Label:
-          default: Security responsibility
-        Parameters:
-          - SecurityResponsibility
-      -
-        Label:
           default: Senzing installation
         Parameters:
           - AcceptEula
@@ -34,15 +29,20 @@ Metadata:
           - SenzingLicenseAsBase64
       -
         Label:
+          default: Identify existing database stack
+        Parameters:
+          - DatabaseStack
+      -
+        Label:
+          default: Security responsibility
+        Parameters:
+          - SecurityResponsibility
+      -
+        Label:
           default: Security
         Parameters:
           - CognitoAdminEmail
           - CidrInbound
-      -
-        Label:
-          default: Identify existing resources
-        Parameters:
-          - DatabaseStack
     ParameterLabels:
       AcceptEula:
         default: >-
@@ -50,11 +50,11 @@ Metadata:
           https://senzing.com/end-user-license-agreement,
           enter 'I_ACCEPT_THE_SENZING_EULA'.
       CidrInbound:
-        default: 'Required: Allowed inbound connections using CIDR notation.'
+        default: 'Required: Provide the permitted IP address block allowed to connect using CIDR notation.'
       DatabaseStack:
-        default: 'Required: Name of stack having Senzing databases.'
+        default: 'Required: Provide the name of stack containing Senzing database(s).'
       CognitoAdminEmail:
-        default: 'Required: Email address for initial user.'
+        default: 'Required: Provide the email address for the administrative user.'
       SecurityResponsibility:
         default: >-
           Required: A default deployment of this template is for public demonstration only.
@@ -63,8 +63,8 @@ Metadata:
           To acknowledge your understanding and acceptance of the foregoing, type “I AGREE”.
       SenzingLicenseAsBase64:
         default: >-
-          Required if inserting more than 100K records.
-          Senzing license as base64 encoded string.
+          The Senzing Evaluation comes with 100k free records of entity Resolution.
+          If using more than 100k records, please input base 64 encoded license string.
       SenzingVersion:
         default: 'Required: Version of Senzing to install.'
 
