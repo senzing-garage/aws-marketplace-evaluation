@@ -25,7 +25,6 @@ Metadata:
           default: Senzing installation
         Parameters:
           - AcceptEula
-          - SenzingVersion
           - SenzingLicenseAsBase64
       -
         Label:
@@ -65,8 +64,6 @@ Metadata:
         default: >-
           The Senzing Evaluation comes with 100k free records of entity resolution.
           If using more than 100k records, please input base 64 encoded license string.
-      SenzingVersion:
-        default: 'Required: Version of Senzing to install.'
 
 # -----------------------------------------------------------------------------
 # Parameters
@@ -121,18 +118,6 @@ Parameters:
     ConstraintDescription: 'Must contain only Base64 characters. see https://hub.senzing.com/aws-marketplace-evaluation/#senzinglicenseasbase64'
     Default: ' '
     Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/#senzinglicenseasbase64'
-    Type: String
-
-
-  SenzingVersion:
-    AllowedValues:
-      - '2.8.1'
-      - '2.7.0'
-      - '2.6.0'
-      - '2.5.1'
-      - '2.5.0'
-    Default: '2.8.1'
-    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/#senzingversion'
     Type: String
 
 # -----------------------------------------------------------------------------
@@ -195,18 +180,6 @@ Rules:
 # -----------------------------------------------------------------------------
 
 Mappings:
-  SenzingVersionMap:
-    "2.8.1":
-      value: "senzingapi-2.8.1-21217"
-    "2.7.0":
-      value: "senzingapi-2.7.0-21153"
-    "2.6.0":
-      value: "senzingapi-2.6.0-21133"
-    "2.5.1":
-      value: "senzingapi-2.5.1-21124"
-    "2.5.0":
-      value: "senzingapi-2.5.0-21104"
-
   Constants:
     Images:
       ApiServer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/senzing-poc-server:1.0.0
@@ -234,6 +207,8 @@ Mappings:
       VpcFlowLogs: No
       WebApp: Yes
       Xterm: Yes
+    SenzingVersion:
+      value: "senzingapi-2.8.1-21217"
     Stack:
       Name: basic
     StreamProducer:
@@ -3364,8 +3339,8 @@ Resources:
             - '-y'
             - 'install'
             - !FindInMap
-              - SenzingVersionMap
-              - !Ref SenzingVersion
+              - Constants
+              - SenzingVersion
               - value
           Environment:
             -
