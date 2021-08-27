@@ -3069,7 +3069,7 @@ Resources:
               Value: /api
             -
               Name: SENZING_SQS_LOAD_QUEUE_URL
-              Value: !Sub "${AWS::StackName}-sqs-input"
+              Value: !If [ IfUsingQueues, !Ref SqsInput, ""]
           Essential: true
           Image: !FindInMap [Constants, Images, ApiServer]
           LogConfiguration:
