@@ -990,6 +990,7 @@ Resources:
       Roles:
        - !Ref IamRoleStreamLoader
        - !Ref IamRoleStreamProducer
+       - !Ref IamRoleApiServer
     Type: AWS::IAM::Policy
 
 
