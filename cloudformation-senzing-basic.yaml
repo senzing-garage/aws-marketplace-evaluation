@@ -3071,6 +3071,9 @@ Resources:
             -
               Name: SENZING_SQS_LOAD_QUEUE_URL
               Value: !If [ IfUsingQueues, !Ref SqsInput, ""]
+            -
+              Name: SENZING_SQS_INFO_QUEUE_URL
+              Value: !If [ IfUsingQueues, !Ref SqsOutput, ""]
           Essential: true
           Image: !FindInMap [Constants, Images, ApiServer]
           LogConfiguration:
