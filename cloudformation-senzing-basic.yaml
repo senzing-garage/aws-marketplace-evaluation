@@ -385,6 +385,7 @@ Resources:
             Principal:
               Service:
                 - ecs-tasks.amazonaws.com
+                - sqs.amazonaws.com
         Version: '2012-10-17'
       Description: !Sub "${AWS::StackName}-iam-role-api-server"
       Tags:
