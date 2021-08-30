@@ -2735,7 +2735,7 @@ Resources:
         - Order: 1
           RedirectConfig:
             Host: hub.senzing.com
-            Path: /aws-cloudformation-ecs-senzing-stack-basic/
+            Path: /aws-marketplace-evaluation/
             Port: '443'
             Protocol: HTTPS
             StatusCode: HTTP_301
@@ -2948,9 +2948,9 @@ Resources:
               </p>
               <p>
                   For more information on the
-                  <a href="https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-basic">Senzing basic components</a>
+                  <a href="https://github.com/Senzing/aws-marketplace-evaluation">Senzing evaluation</a>
                   "${AWS::StackName}"
-                  AWS Cloudformation,
+                  AWS Marketplace Cloudformation,
                   contact ${Contact}.
               </p>
               </html>
