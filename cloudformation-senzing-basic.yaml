@@ -1357,6 +1357,18 @@ Resources:
     Type: AWS::EC2::SecurityGroupIngress
 
 
+  Ec2SecurityGroupIngressWebAppWss:
+    Condition: IfRunWebApp
+    Properties:
+      Description: Allow Websocket on Container port 8255 from ALB
+      FromPort: 8255
+      GroupId: !GetAtt Ec2SecurityGroupLoadBalancerPublic.GroupId
+      IpProtocol: tcp
+      SourceSecurityGroupId: !GetAtt Ec2SecurityGroupLoadBalancerPublic.GroupId
+      ToPort: 8255
+    Type: AWS::EC2::SecurityGroupIngress
+
+
   Ec2SecurityGroupIngressXterm:
     Condition: IfRunXterm
     Properties:
@@ -2673,6 +2685,29 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
 
 
+  TargetGroupWebAppWss:
+    Condition: IfRunWebApp
+    DependsOn:
+     - LoadBalancerPublic
+    Properties:
+      Matcher:
+        HttpCode: 200-299
+      Name: !Sub "${AWS::StackName}-tg-web-app-wss"
+      Port: 8255
+      Protocol: HTTP
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-target-group-web-app-wss"
+      TargetGroupAttributes:
+      - Key: deregistration_delay.timeout_seconds
+        Value: '60'
+      TargetType: ip
+      VpcId:
+        Fn::ImportValue:
+          Fn::Sub: '${DatabaseStack}-ec2-VpcId'
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+
+
   TargetGroupXterm:
     Condition: IfRunXterm
     DependsOn:
@@ -2851,6 +2886,33 @@ Resources:
           Values:
             - "/app/*"
             - "/app"
+      ListenerArn: !Ref ListenerPort443
+      Priority: 6
+    Type: "AWS::ElasticLoadBalancingV2::ListenerRule"
+
+
+  ListenerRuleWebAppWss:
+    Condition: IfRunWebApp
+    Properties:
+      Actions:
+        - AuthenticateCognitoConfig:
+            OnUnauthenticatedRequest: authenticate
+            Scope: openid
+            UserPoolArn: !GetAtt 'UserPool.Arn'
+            UserPoolClientId: !Ref UserPoolClient
+            UserPoolDomain: !Ref UserPoolDomain
+          Order: 1
+          Type: authenticate-cognito
+        -
+          Type: "forward"
+          TargetGroupArn: !Ref TargetGroupWebAppWss
+          Order: 2
+      Conditions:
+        -
+          Field: "path-pattern"
+          Values:
+            - "/app/ws/*"
+            - "/app/ws"
       ListenerArn: !Ref ListenerPort443
       Priority: 5
     Type: "AWS::ElasticLoadBalancingV2::ListenerRule"
@@ -4094,6 +4156,15 @@ Resources:
             -
               Name: SENZING_WEB_SERVER_URL
               Value: !Sub "http://${LoadBalancerPublic.DNSName}:8251/app"
+            -
+              Name: SENZING_WEB_SERVER_PROXY_LOGLEVEL
+              Value: debug
+            -
+              Name: SENZING_WEB_SERVER_INTERNAL_URL
+              Value: "http://localhost:8251/app"
+            -
+              Name: SENZING_WEB_SERVER_STREAM_CLIENT_URL
+              Value: !Sub "wss://${LoadBalancerPublic.DNSName}/app/ws"
           Essential: true
           Image: !FindInMap [Constants, Images, WebApp]
           LogConfiguration:
@@ -4481,6 +4552,7 @@ Resources:
     DependsOn:
      - ListenerPort443
      - ListenerRuleWebApp
+     - ListenerRuleWebAppWss
     Properties:
       Cluster: !Ref EcsCluster
       DesiredCount: 1
@@ -4491,6 +4563,10 @@ Resources:
           ContainerName: webapp
           ContainerPort: 8251
           TargetGroupArn: !Ref TargetGroupWebApp
+        -
+          ContainerName: webapp
+          ContainerPort: 8255
+          TargetGroupArn: !Ref TargetGroupWebAppWss
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: DISABLED
