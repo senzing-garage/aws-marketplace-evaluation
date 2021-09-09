@@ -182,7 +182,7 @@ Rules:
 Mappings:
   Constants:
     Images:
-      ApiServer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/senzing-poc-server:1.0.0
+      ApiServer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/senzing-poc-server:1.0.2
       BusyBox: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/busybox
       G2Config: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/g2configtool:1.4.3
       InitContainer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/init-container:1.6.13
@@ -190,10 +190,10 @@ Mappings:
       Redoer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/redoer-with-data:1.3.10
       Sshd: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/sshd:1.2.4
       StreamLoader: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-loader-with-data:1.8.4
-      StreamProducer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-producer:1.5.1
-      Swagger: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/swagger-ui:v3.50.0
-      WebApp: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/entity-search-web-app:2.3.1
-      Xterm: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/xterm:1.1.3
+      StreamProducer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-producer:1.6.1
+      Swagger: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/swagger-ui:v3.51.0
+      WebApp: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/entity-search-web-app:2.3.2
+      Xterm: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/xterm:1.2.0
       Yum: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/yum:1.1.6
     Run:
       ApiServer: Yes
@@ -208,7 +208,7 @@ Mappings:
       WebApp: Yes
       Xterm: Yes
     SenzingVersion:
-      value: "senzingapi-2.8.1-21217"
+      value: "senzingapi-2.8.2-21243"
     Stack:
       Name: basic
     StreamProducer:
@@ -3106,6 +3106,12 @@ Resources:
             -
               Name: SENZING_API_SERVER_URL_BASE_PATH
               Value: /api
+            -
+              Name: SENZING_API_SERVER_DEBUG
+              Value: 'false'
+            -
+              Name: SENZING_API_SERVER_VERBOSE
+              Value: 'false'
             -
               Name: SENZING_SQS_LOAD_QUEUE_URL
               Value: !If [ IfUsingQueues, !Ref SqsInput, ""]
