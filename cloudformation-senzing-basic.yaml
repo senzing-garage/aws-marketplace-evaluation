@@ -78,7 +78,7 @@ Parameters:
     AllowedPattern: '.+|^I_ACCEPT_THE_SENZING_EULA$'
     ConstraintDescription: AcceptEula parameter must be 'I_ACCEPT_THE_SENZING_EULA'
     Default: '_'
-    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#accepteula'
+    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/details#accepteula'
     Type: String
 
 
@@ -88,7 +88,7 @@ Parameters:
     MinLength: 9
     MaxLength: 18
     Default: '10.0.0.0/32'
-    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#cidrinbound'
+    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/details#cidrinbound'
     Type: String
 
 
@@ -96,13 +96,13 @@ Parameters:
     AllowedPattern: '.+|^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$'
     ConstraintDescription: Entering initial user email address is required to proceed
     Default: '_'
-    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#cognitoadminemail'
+    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/details#cognitoadminemail'
     Type: String
 
 
   DatabaseStack:
     Default: '_'
-    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#databasestack'
+    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/details#databasestack'
     Type: String
 
 
@@ -110,14 +110,14 @@ Parameters:
     AllowedPattern: '.+|^I AGREE$'
     ConstraintDescription: SecurityResponsibility parameter must be 'I AGREE'
     Default: '_'
-    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#securityresponsibility'
+    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/details#securityresponsibility'
     Type: String
 
 
   SenzingLicenseAsBase64:
-    ConstraintDescription: 'Must contain only Base64 characters. see https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#senzinglicenseasbase64'
+    ConstraintDescription: 'Must contain only Base64 characters. see https://hub.senzing.com/aws-marketplace-evaluation/details#senzinglicenseasbase64'
     Default: ' '
-    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#senzinglicenseasbase64'
+    Description: 'Help: https://hub.senzing.com/aws-marketplace-evaluation/details#senzinglicenseasbase64'
     Type: String
 
 # -----------------------------------------------------------------------------
@@ -2770,7 +2770,7 @@ Resources:
         - Order: 1
           RedirectConfig:
             Host: hub.senzing.com
-            Path: /aws-marketplace-evaluation/details
+            Path: /aws-marketplace-evaluation/
             Port: '443'
             Protocol: HTTPS
             StatusCode: HTTP_301
@@ -4769,156 +4769,156 @@ Outputs:
 
   0penFirst:
     Condition: IfRunWebApp
-    Description: 'URL for Senzing Web App. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#0penfirst'
+    Description: 'URL for Senzing Web App. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#0penfirst'
     Export:
       Name: !Sub "${AWS::StackName}-open-first"
     Value: !Sub "https://${LoadBalancerPublic.DNSName}/app/"
 
   AccountID:
-    Description: 'The accountID Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#accountid'
+    Description: 'The accountID Help: https://hub.senzing.com/aws-marketplace-evaluation/details#accountid'
     Export:
       Name: !Sub "${AWS::StackName}-account-id"
     Value: !Sub "${AWS::AccountId}"
 
   CertificateArn:
     Condition: IfUsingWeb
-    Description: 'ARN of the SSL certificate. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#certificatearn'
+    Description: 'ARN of the SSL certificate. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#certificatearn'
     Export:
       Name: !Sub "${AWS::StackName}-certificate-arn"
     Value: !GetAtt IamServerCertificate.Arn
 
   Host:
     Condition: IfUsingWeb
-    Description: 'Host name of public services. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#host'
+    Description: 'Host name of public services. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#host'
     Export:
       Name: !Sub "${AWS::StackName}-host"
     Value: !GetAtt LoadBalancerPublic.DNSName
 
   QueueDeadLetter:
     Condition: IfUsingQueues
-    Description: 'URL of the dead-letter queue. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#queuedeadletter'
+    Description: 'URL of the dead-letter queue. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queuedeadletter'
     Export:
       Name: !Sub "${AWS::StackName}-sqs-deadletter"
     Value: !Ref SqsDeadLetter
 
   QueueInput:
     Condition: IfUsingQueues
-    Description: 'URL of the queue of records to be ingested into Senzing. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#queueinput'
+    Description: 'URL of the queue of records to be ingested into Senzing. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queueinput'
     Export:
       Name: !Sub "${AWS::StackName}-sqs-input"
     Value: !Ref SqsInput
 
   QueueOutput:
     Condition: IfUsingQueues
-    Description: 'URL of the queue with info records. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#queueoutput'
+    Description: 'URL of the queue with info records. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queueoutput'
     Export:
       Name: !Sub "${AWS::StackName}-sqs-output"
     Value: !Ref SqsOutput
 
   QueueRedoerDeadLetter:
     Condition: IfUsingRedoQueues
-    Description: 'URL of the redoer dead-letter queue. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#queueredoerdeadletter'
+    Description: 'URL of the redoer dead-letter queue. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queueredoerdeadletter'
     Export:
       Name: !Sub "${AWS::StackName}-sqs-redoer-deadletter"
     Value: !Ref SqsRedoerDeadLetter
 
   QueueRedoerInput:
     Condition: IfUsingRedoQueues
-    Description: 'URL of the queue holding redo records to be processed. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#queueredoerinput'
+    Description: 'URL of the queue holding redo records to be processed. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queueredoerinput'
     Export:
       Name: !Sub "${AWS::StackName}-sqs-redoer-input"
     Value: !Ref SqsRedoerInput
 
   QueueRedoerOutput:
     Condition: IfUsingRedoQueues
-    Description: 'URL of the queue with redoer info records. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#queueredoeroutput'
+    Description: 'URL of the queue with redoer info records. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queueredoeroutput'
     Export:
       Name: !Sub "${AWS::StackName}-sqs-redoer-output"
     Value: !Ref SqsRedoerOutput
 
   SshPassword:
     Condition: IfUsingSshd
-    Description: 'The randomly generated password for SSH access. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#sshpassword'
+    Description: 'The randomly generated password for SSH access. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#sshpassword'
     Export:
       Name: !Sub "${AWS::StackName}-ssh-password"
     Value: !GetAtt LambdaRunnerSshPassword.RandomString
 
   SshUsername:
     Condition: IfUsingSshd
-    Description: 'The username for SSH access. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#sshusername'
+    Description: 'The username for SSH access. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#sshusername'
     Export:
       Name: !Sub "${AWS::StackName}-ssh-username"
     Value: root
 
   SubnetPublic1:
-    Description: 'The ID of public subnet 1. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#subnetpublic1'
+    Description: 'The ID of public subnet 1. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#subnetpublic1'
     Export:
       Name: !Sub "${AWS::StackName}-subnet-public-1"
     Value: !Ref Ec2SubnetPublic1
 
   SubnetPublic2:
-    Description: 'The ID of public subnet 2. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#subnetpublic2'
+    Description: 'The ID of public subnet 2. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#subnetpublic2'
     Export:
       Name: !Sub "${AWS::StackName}-subnet-public-2"
     Value: !Ref Ec2SubnetPublic2
 
   UrlApiServer:
     Condition: IfUsingApiServer
-    Description: "URL for API Server. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#urlapiserver"
+    Description: "URL for API Server. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#urlapiserver"
     Export:
       Name: !Sub "${AWS::StackName}-url-api-server"
     Value: !Sub "https://${LoadBalancerPublic.DNSName}/api/"
 
   UrlApiServerHeartbeat:
     Condition: IfUsingApiServer
-    Description: "URL for API Server's heartbeat. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#urlapiserverheartbeat"
+    Description: "URL for API Server's heartbeat. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#urlapiserverheartbeat"
     Value: !Sub "https://${LoadBalancerPublic.DNSName}/api/heartbeat/"
 
   UrlJupyter:
     Condition: IfRunJupyter
-    Description: 'URL for Jupyter Notebooks. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#urljupyter'
+    Description: 'URL for Jupyter Notebooks. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#urljupyter'
     Export:
       Name: !Sub "${AWS::StackName}-url-jupyter"
     Value: !Sub "https://${LoadBalancerPublic.DNSName}/jupyter/"
 
   UrlSwagger:
     Condition: IfRunSwagger
-    Description: 'URL for Swagger. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#urlswagger'
+    Description: 'URL for Swagger. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#urlswagger'
     Export:
       Name: !Sub "${AWS::StackName}-url-swagger"
     Value: !Sub "https://${LoadBalancerPublic.DNSName}/swagger/"
 
   UrlWebApp:
     Condition: IfRunWebApp
-    Description: 'URL for Senzing Web App. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#urlwebapp'
+    Description: 'URL for Senzing Web App. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#urlwebapp'
     Export:
       Name: !Sub "${AWS::StackName}-url-webapp"
     Value: !Sub "https://${LoadBalancerPublic.DNSName}/app/"
 
   UrlXterm:
     Condition: IfRunXterm
-    Description: 'URL for Senzing XTerm. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#urlxterm'
+    Description: 'URL for Senzing XTerm. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#urlxterm'
     Export:
       Name: !Sub "${AWS::StackName}-url-xterm"
     Value: !Sub "https://${LoadBalancerPublic.DNSName}/xterm/"
 
   UserInitPassword:
     Condition: IfUsingWeb
-    Description: 'One time password for web access. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#userinitpassword'
+    Description: 'One time password for web access. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#userinitpassword'
     Export:
       Name: !Sub "${AWS::StackName}-user-init-password"
     Value: !GetAtt LambdaRunnerWebPassword.RandomPassword
 
   UserName:
     Condition: IfUsingWeb
-    Description: 'Username for web access. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#username'
+    Description: 'Username for web access. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#username'
     Export:
       Name: !Sub "${AWS::StackName}-user-name"
     Value: !Ref CognitoAdminEmail
 
   UserPool:
     Condition: IfUsingWeb
-    Description: 'Username for web access. Help: https://hub.senzing.com/aws-marketplace-evaluation/detailsdetails#userpool'
+    Description: 'Username for web access. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#userpool'
     Export:
       Name: !Sub "${AWS::StackName}-user-pool"
     Value: !Sub "https://console.aws.amazon.com/cognito/users/#/pool/${UserPool}/users"
