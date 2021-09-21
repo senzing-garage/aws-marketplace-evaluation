@@ -3092,7 +3092,7 @@ Resources:
               Name: SENZING_API_SERVER_ENABLE_ADMIN
               Value: 'true'
             -
-              Name: SENZING_API_SERVER_INI_FILE
+              Name: SENZING_API_SERVER_INIT_JSON
               Value: !GetAtt SsmParameterSenzingEngineConfigurationJson.Value
             -
               Name: SENZING_API_SERVER_PORT
