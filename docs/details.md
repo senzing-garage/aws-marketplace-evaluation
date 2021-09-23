@@ -98,7 +98,7 @@ This docker formation uses up the following docker containers:
    With appropriate permissions, the
    [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/)
    can help evaluate costs.
-1. Visit [AWS Cloudformation with Senzing template](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=senzing-db&templateURL=https://s3.amazonaws.com/public-read-access/cloudformation-senzing-database/cloudformation-senzing-database.yaml)
+1. Visit [AWS Cloudformation with Senzing template](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=senzing-db&templateURL=https://senzing-aws-marketplace.s3.amazonaws.com/database/cloudformation-senzing-database.yaml)
 1. At lower-right, click on "Next" button.
 1. In **Specify stack details**
     1. In **Parameters**
@@ -209,35 +209,35 @@ This docker formation uses the following docker containers:
    With appropriate permissions, the
    [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/)
    can help evaluate costs.
-1. Visit [AWS Cloudformation with Senzing template](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=senzing-basic&templateURL=https://s3.amazonaws.com/public-read-access/aws-cloudformation-ecs-senzing-stack-basic/cloudformation.yaml)
-1. At lower-right, click on "Next" button.
-1. In **Specify stack details**
+2. Visit [AWS Cloudformation with Senzing template](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=senzing-basic&templateURL=https://senzing-aws-marketplace.s3.amazonaws.com/basic/cloudformation-senzing-basic.yaml)
+3. At lower-right, click on "Next" button.
+4. In **Specify stack details**
     1. In **Parameters**
         1. In **Security responsibility**
             1. Understand the nature of the security in the deployment.
-            1. Once understood, enter "I AGREE".
-        1. In **Senzing installation**
+            2. Once understood, enter "I AGREE".
+        2. In **Senzing installation**
             1. Accept the End User License Agreement
-        1. In **Security**
+        3. In **Security**
             1. Enter your email address.  Example: `me@example.com`
-            1. Enter a
+            2. Enter a
                [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)
                that allows access from certain IP Addresses.
                For instance `0.0.0.0/0` allows access from anywhere,
                but is considered insecure.
                `1.2.3.4/32` allows access from only one IP address, `1.2.3.4`.
-        1. In **Identify existing resources**
+        4. In **Identify existing resources**
             1. Enter the stack name of the previously deployed
                [cloudformation-senzing-database](#cloudformation-senzing-database)
                Cloudformation stack.
                Example:  `senzing-db`
+    2. At lower-right, click "Next" button.
+5. In **Configure stack options**
     1. At lower-right, click "Next" button.
-1. In **Configure stack options**
-    1. At lower-right, click "Next" button.
-1. In **Review senzing-basic**
+6. In **Review senzing-basic**
     1. Near the bottom, in **Capabilities**
         1. Check ":ballot_box_with_check: I acknowledge that AWS CloudFormation might create IAM resources."
-    1. At lower-right, click "Create stack" button.
+    2. At lower-right, click "Create stack" button.
 
 #### Review cloudformation-senzing-basic
 
