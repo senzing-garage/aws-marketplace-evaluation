@@ -112,7 +112,7 @@ This docker formation uses up the following docker containers:
             1. Once understood, enter "I AGREE".
     1. At lower-right, click "Next" button.
 1. In **Configure stack options**
-    1. In **Permisssions**
+    1. In **Permissions**
         1. ✏️ If applicable to your AWS account, review and configure the IAM role.
     1. In **Stack failure options**
         1. ✏️ It is recommended to select "Preserve successfully provisioned resources" for debugging purposes.
@@ -243,7 +243,7 @@ This docker formation uses the following docker containers:
             1. Once understood, enter "I AGREE".
     1. At lower-right, click "Next" button.
 1. In **Configure stack options**
-        1. In **Permisssions**
+        1. In **Permissions**
         1. ✏️ If applicable to your AWS account, review and configure the IAM role.
     1. In **Stack failure options**
         1. ✏️ It is recommended to select "Preserve successfully provisioned resources" for debugging purposes.
