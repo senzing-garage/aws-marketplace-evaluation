@@ -11,19 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Thing 5
 - Thing 4
 
-## [1.0.1] - yyyy-mm-dd
+## [1.0.1] - 2021-10-05
 
-### Added to 1.0.1
+### Changed in 1.0.1
 
-- Thing 3
+- Updated lambda function error reporting
 
-### Fixed in 1.0.1
 
-- Thing 2
+## [1.0.0] - 2021-09-10
 
-## [1.0.0] - yyyy-mm-dd
+### Changed in 1.0.0
 
-### Added to 1.0.0
-
-- Thing 2
-- Thing 1
+- Initial version based on basic and database cluster
