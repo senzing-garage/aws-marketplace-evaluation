@@ -802,6 +802,40 @@ Resources:
     Type: AWS::IAM::Policy
 
 
+  IamPolicyECSTaskExecution:
+    Properties:
+      PolicyName: !Sub "${AWS::StackName}-iam-policy-ecs-task-execution"
+      PolicyDocument:
+        Statement:
+          -
+            Action:
+              - ecr:GetAuthorizationToken
+              - ecr:BatchCheckLayerAvailability
+              - ecr:GetDownloadUrlForLayer
+              - ecr:BatchGetImage
+              - secretsmanager:GetSecretValue
+            Effect: Allow
+            Resource:
+              - '*'
+        Version: '2012-10-17'
+      Roles:
+       - !Ref IamRoleApiServer
+       - !Ref IamRoleG2ConfigTool
+       - !Ref IamRoleInitEfs
+       - !Ref IamRoleInitPostgres
+       - !Ref IamRoleInitSenzing
+       - !Ref IamRoleInstallSenzing
+       - !Ref IamRoleJupyter
+       - !Ref IamRoleRedoer
+       - !Ref IamRoleSshd
+       - !Ref IamRoleStreamLoader
+       - !Ref IamRoleStreamProducer
+       - !Ref IamRoleSwagger
+       - !Ref IamRoleWebApp
+       - !Ref IamRoleXterm
+    Type: AWS::IAM::Policy
+
+
   IamPolicyEfs:
     Properties:
       PolicyName: !Sub "${AWS::StackName}-iam-policy-lambda"
