@@ -91,7 +91,7 @@ Mappings:
       Name: G2
       Username: senzing
     Images:
-      PostgresClient: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/postgresql-client:1.1.1
+      PostgresClient: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/postgresql-client:1.1.2
     Stack:
       Name: database-cluster
   VpcCidrs:
