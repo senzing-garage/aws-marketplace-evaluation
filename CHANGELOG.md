@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Thing 5
 - Thing 4
 
+## [1.0.3] - 2021-10-15
+
+### Changed in 1.0.3
+
+- Updated versions of docker images
+
 ## [1.0.2] - 2021-10-08
 
 ### Changed in 1.0.2
