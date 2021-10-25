@@ -1,0 +1,67 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:CreateFunction",
+                "application-autoscaling:RegisterScalableTarget",
+                "lambda:InvokeFunction",
+                "application-autoscaling:DescribeScalableTargets",
+                "application-autoscaling:DescribeScalingPolicies",
+                "application-autoscaling:PutScalingPolicy",
+                "lambda:GetFunctionConfiguration",
+                "lambda:DeleteFunction",
+                "application-autoscaling:DeleteScalingPolicy",
+                "application-autoscaling:DeregisterScalableTarget"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "elasticfilesystem:DescribeBackupPolicy",
+                "rds:AddTagsToResource",
+                "rds:DescribeDBClusterParameters",
+                "elasticfilesystem:DescribeMountTargets",
+                "rds:DescribeDBSubnetGroups",
+                "rds:DeleteDBSnapshot",
+                "rds:CreateDBSubnetGroup",
+                "rds:DeleteDBSubnetGroup",
+                "rds:DeleteDBClusterSnapshot",
+                "rds:CreateDBSnapshot",
+                "rds:CreateDBCluster",
+                "elasticfilesystem:DescribeLifecycleConfiguration",
+                "rds:DescribeDBClusterSnapshots",
+                "rds:ModifyDBClusterParameterGroup",
+                "rds:CreateDBClusterSnapshot",
+                "rds:CreateDBClusterParameterGroup",
+                "rds:DeleteDBClusterParameterGroup",
+                "rds:DeleteDBCluster",
+                "rds:DescribeDBClusters"
+            ],
+            "Resource": [
+                "arn:aws:elasticfilesystem:*:<your_account_here>:file-system/*",
+                "arn:aws:elasticfilesystem:*:<your_account_here>:access-point/*",
+                "arn:aws:rds:*:<your_account_here>:cluster-snapshot:*",
+                "arn:aws:rds:*:<your_account_here>:cluster-pg:*",
+                "arn:aws:rds:*:<your_account_here>:subgrp:*",
+                "arn:aws:rds:*:<your_account_here>:secgrp:*",
+                "arn:aws:rds:*:<your_account_here>:db-proxy-endpoint:*",
+                "arn:aws:rds:*:<your_account_here>:snapshot:*",
+                "arn:aws:rds:*:<your_account_here>:db-proxy:*",
+                "arn:aws:rds:*:<your_account_here>:cluster-endpoint:*",
+                "arn:aws:rds:*:<your_account_here>:cluster:*",
+                "arn:aws:rds:*:<your_account_here>:og:*",
+                "arn:aws:rds::<your_account_here>:global-cluster:*",
+                "arn:aws:rds:*:<your_account_here>:ri:*",
+                "arn:aws:rds:*:<your_account_here>:es:*",
+                "arn:aws:rds:*:<your_account_here>:pg:*",
+                "arn:aws:rds:*:<your_account_here>:target-group:*",
+                "arn:aws:rds:*:<your_account_here>:db:*"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,51 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:DescribeParameters",
+                "cognito-idp:CreateUserPool",
+                "elasticloadbalancing:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "cognito-idp:DeleteUserPool",
+                "cognito-idp:CreateUserPoolDomain",
+                "cognito-idp:CreateUserPoolClient",
+                "cognito-idp:DeleteUserPoolClient",
+                "cognito-idp:DeleteUserPoolDomain",
+                "cognito-idp:DescribeUserPoolClient"
+            ],
+            "Resource": [
+                "arn:aws:cognito-idp:*:<your_account_here>:userpool/*",
+                "arn:aws:s3:::senzing-public-??-*-?/aws-lambda-self-signed-certificate/self-signed-certificate.zip"
+            ]
+        },
+        {
+            "Sid": "VisualEditor2",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:PutParameter",
+                "ssm:DeleteParameter",
+                "ssm:RemoveTagsFromResource",
+                "ssm:AddTagsToResource",
+                "ssm:ListTagsForResource",
+                "ssm:GetParameters",
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:*:<your_account_here>:parameter/*"
+        }
+    ]
+}a        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::*:role/CFn-ServiceRole"
+        },
