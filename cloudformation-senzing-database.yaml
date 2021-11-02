@@ -7,7 +7,7 @@ AWSTemplateFormatVersion: 2010-09-09
 #     aws cloudformation validate-template: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/validate-template.html
 
 Description: >-
-  Senzing aws-marketplace-evaluation: 1.0.4
+  Senzing aws-marketplace-evaluation: 1.0.5
   For more information see https://github.com/Senzing/aws-marketplace-evaluation
 
 # -----------------------------------------------------------------------------
@@ -98,13 +98,13 @@ Mappings:
     vpc:
       cidr: 10.0.0.0/16
     privsubnet1:
-      cidr: 10.0.1.0/24
+      cidr: 10.0.10.0/22
     privsubnet2:
-      cidr: 10.0.2.0/24
+      cidr: 10.0.20.0/22
     pubsubnet1:
-      cidr: 10.0.3.0/24
+      cidr: 10.0.30.0/22
     pubsubnet2:
-      cidr: 10.0.4.0/24
+      cidr: 10.0.40.0/22
 
 # -----------------------------------------------------------------------------
 # Conditions
