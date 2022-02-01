@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Thing 5
 - Thing 4
 
+## [1.0.6] - 2022-02-01
+
+### Changed in 1.0.6
+
+- updated to new yum image
+
 ## [1.0.5] - 2021-11-02
 
 ### Changed in 1.0.5
