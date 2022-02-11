@@ -8,8 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Thing 5
-- Thing 4
+- Removed Jupyter
 
 ## [1.0.6] - 2022-02-01
 
