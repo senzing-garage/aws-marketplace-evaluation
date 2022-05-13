@@ -822,6 +822,23 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Where used:**
     1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
 
+### UrlPrivateApiServer
+
+1. **Synopsis:**
+   A URL showing how to reach the
+   [Senzing API Server](https://github.com/Senzing/senzing-api-server)
+   directly from within the same VPC.
+
+### UrlPrivateApiServerHeartbeat
+
+1. **Synopsis:**
+   A URL showing how to reach the
+   [Senzing API Server](https://github.com/Senzing/senzing-api-server)
+   directly from within the same VPC.
+   The `/heartbeat` URI path simply demonstrates that the API server is responding.
+   For more URIs, see
+   [SwaggerUrl output value](#urlswagger).
+
 ### UrlSwagger
 
 1. **Synopsis:**
