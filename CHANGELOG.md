@@ -8,7 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
--
+- updated resource names to allow for 21 char stack names
+- updated readme to reflect stack name character limit
+- updated readme to include additional text.
+
+## [1.0.10] - 2022-05-20
+
+### Changed in 1.0.10
+
+- no changes, release created to test automation
 
 ## [1.0.9] - 2022-05-13
 
