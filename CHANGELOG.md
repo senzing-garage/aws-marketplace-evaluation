@@ -8,11 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+-
+
+## [1.0.11] - 2022-06-13
+
+### Changed in 1.0.11
+
 - updated resource names to allow for 21 char stack names
 - updated readme to reflect stack name character limit
 - updated readme to include additional text.
 - added image versions to stack output
 - changed UserPoolDomain to include random suffix
+- updated to Senzing version 3.1.0
+- updated Docker images to latest stable
 
 ## [1.0.10] - 2022-05-20
 

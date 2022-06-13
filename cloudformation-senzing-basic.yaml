@@ -7,7 +7,7 @@ AWSTemplateFormatVersion: 2010-09-09
 #     aws cloudformation validate-template: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/validate-template.html
 
 Description: >-
-  Senzing aws-marketplace-evaluation: 1.0.9
+  Senzing aws-marketplace-evaluation: 1.0.11
   For more information see
   https://github.com/Senzing/aws-marketplace-evaluation
 
@@ -166,18 +166,18 @@ Rules:
 Mappings:
   Constants:
     Images:
-      ApiServer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/senzing-poc-server:3.0.1
-      Apt: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/apt:1.0.8
+      ApiServer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/senzing-poc-server:3.0.2
+      Apt: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/apt:1.0.9
       BusyBox: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/busybox:1.34.1
-      G2Config: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/g2configtool:1.4.5
-      InitContainer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/init-container:1.7.9
-      Redoer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/redoer-with-data:1.5.3
-      Sshd: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/sshd:1.2.12
-      StreamLoader: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-loader-with-data:1.10.3
-      StreamProducer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-producer:1.7.1
-      Swagger: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/swagger-ui:v4.10.3
+      G2Config: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/g2configtool:1.4.6
+      InitContainer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/init-container:1.7.11
+      Redoer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/redoer-with-data:1.5.4
+      Sshd: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/sshd:1.3.0
+      StreamLoader: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-loader-with-data:1.10.4
+      StreamProducer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-producer:1.7.2
+      Swagger: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/swagger-ui:v4.12.0
       WebApp: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/entity-search-web-app:2.6.0
-      Xterm: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/xterm:1.2.8
+      Xterm: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/xterm:1.3.2
     Run:
       ApiServer: Yes
       Redoer: Yes
@@ -189,7 +189,7 @@ Mappings:
       WebApp: Yes
       Xterm: Yes
     SenzingVersion:
-      value: "senzingapi=3.0.0-22119"
+      value: "senzingapi=3.1.0-22152"
     Stack:
       Name: basic
     StreamProducer:
