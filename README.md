@@ -11,10 +11,14 @@ Senzing Repo](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-ba
 
 For more details, see [details of deployment](docs/README.md).
 
-1. :warning: **Warning:** This Cloudformation deployment will accrue AWS costs.
+1. :warning: **Warning:**
+   This Cloudformation deployment will accrue AWS costs.
    With appropriate permissions, the
    [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/)
    can help evaluate costs.
+1. :warning: **Warning:**
+   This Cloudformation deployment only runs in
+   [supported AWS Regions](https://github.com/Senzing/knowledge-base/blob/main/lists/aws-supported-regions.md).
 
 ## Install the Database Stack
 
