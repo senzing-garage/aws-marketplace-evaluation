@@ -8,8 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- added SecondsBeforeTimeout setting
 -
+
+## [1.0.12] - 2022-07-29
+
+### Changed in 1.0.12
+
+- added SecondsBeforeTimeout setting
+- updated to support different engine config depending on database config
+- updated how we output image versions.  there is apparently a new restriction: "Cannot export output ImageVersions with length 1205. Max length of 1024 exceeded."
 
 ## [1.0.11] - 2022-06-13
 
