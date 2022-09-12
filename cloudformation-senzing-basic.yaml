@@ -430,6 +430,28 @@ Resources:
         - !Ref IamRoleLambda
     Type: AWS::IAM::Policy
 
+  IamPolicyECSTaskExecution:
+    Properties:
+      PolicyName: !Sub "${AWS::StackName}-iam-policy-ecs-task-execution"
+      PolicyDocument:
+        Statement:
+          - Action:
+              - ecr:GetAuthorizationToken
+              - ecr:BatchCheckLayerAvailability
+              - ecr:GetDownloadUrlForLayer
+              - ecr:BatchGetImage
+            Effect: Allow
+            Resource:
+              - "*"
+        Version: "2012-10-17"
+      Roles:
+        - !Ref IamRoleG2ConfigTool
+        - !Ref IamRoleRedoer
+        - !Ref IamRoleStreamLoader
+        - !Ref IamRoleWebApp
+        - !Ref IamRoleXterm
+    Type: AWS::IAM::Policy
+
   IamPolicyLoggingCreateStream:
     Properties:
       PolicyName: !Sub "${AWS::StackName}-iam-policy-logging-create-stream"
