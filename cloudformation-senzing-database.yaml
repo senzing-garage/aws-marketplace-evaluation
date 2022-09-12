@@ -48,7 +48,7 @@ Parameters:
     AllowedValues:
       - "Single"
       - "Multiple"
-    Default: "Multiple"
+    Default: "Single"
     Description: "Help: https://hub.senzing.com/aws-marketplace-evaluation/details#multipledatabases"
     Type: String
 
