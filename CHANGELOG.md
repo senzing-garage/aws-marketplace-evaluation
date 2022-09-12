@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+-
+
+## [1.1.0] - 2022-09-15
+
+### Changed in 1.1.0
+
 - No further need for EFS, remove it
 - map version selection to list of images
 - Senzing License as environment variable #98
@@ -16,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove EcsTaskDefinitionInstallSenzing
 - Remove Apt image
 - Update database version #109
+- Update to be web-app-demo #111
 
 ## [1.0.12] - 2022-07-29
 
