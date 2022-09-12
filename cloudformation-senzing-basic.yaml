@@ -7,7 +7,7 @@ AWSTemplateFormatVersion: 2010-09-09
 #     aws cloudformation validate-template: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/validate-template.html
 
 Description: >-
-  Senzing aws-marketplace-evaluation: 1.0.13
+  Senzing aws-marketplace-evaluation: 1.1.0
   For more information see
   https://github.com/Senzing/aws-marketplace-evaluation
 
@@ -173,35 +173,20 @@ Rules:
 Mappings:
   SenzingVersionMap:
     "3.2.0":
-      ApiServer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/senzing-poc-server:3.2.2
       Redoer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/redoer:2.1.0
       SenzingApiTools: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/senzingapi-tools:3.2.0
-      Sshd: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/sshd:1.4.0
       StreamLoader: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-loader:2.1.0
-      StreamProducer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-producer:1.7.3
-      Swagger: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/swagger-ui:v4.13.2
-      WebApp: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/entity-search-web-app:2.7.1
+      WebApp: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/web-app-demo:2.4.1
       Xterm: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/xterm:1.4.1
 
   Constants:
     Run:
-      ApiServer: Yes
       Redoer: Yes
-      Sshd: Yes
-      SshdMax: No
       StreamLoader: Yes
-      StreamProducer: Yes
-      Swagger: No
       WebApp: Yes
       Xterm: Yes
     Stack:
-      Name: basic
-    StreamProducer:
-      DataSource: TEST
-      EntityType: GENERIC
-      InputUrl: https://s3.amazonaws.com/public-read-access/TestDataSets/SenzingTruthSet/truth-set-3.0.0.jsonl
-      RecordMax: 0
-      RecordMin: 0
+      Name: webappdemo
 
 # -----------------------------------------------------------------------------
 # Conditions
@@ -209,32 +194,12 @@ Mappings:
 # -----------------------------------------------------------------------------
 
 Conditions:
-  IfRunApiServer: !Equals
-    - !FindInMap [Constants, Run, ApiServer]
-    - Yes
-
   IfRunRedoer: !Equals
     - !FindInMap [Constants, Run, Redoer]
     - Yes
 
-  IfRunSshd: !Equals
-    - !FindInMap [Constants, Run, Sshd]
-    - Yes
-
-  IfRunSshdMax: !Equals
-    - !FindInMap [Constants, Run, SshdMax]
-    - Yes
-
   IfRunStreamLoader: !Equals
     - !FindInMap [Constants, Run, StreamLoader]
-    - Yes
-
-  IfRunStreamProducer: !Equals
-    - !FindInMap [Constants, Run, StreamProducer]
-    - Yes
-
-  IfRunSwagger: !Equals
-    - !FindInMap [Constants, Run, Swagger]
     - Yes
 
   IfRunWebApp: !Equals
@@ -247,26 +212,7 @@ Conditions:
 
   # -- Compound "if" conditions --------------------------------------------
 
-  IfUsingApiServer: !Or
-    - !Condition IfRunApiServer
-    - !Condition IfRunSwagger
-    - !Condition IfRunWebApp
-
-  IfUsingRedoQueues: !Or
-    - !Condition IfRunRedoer
-    - !Condition IfRunRedoer
-
-  IfUsingSshd: !Or
-    - !Condition IfRunSshd
-    - !Condition IfRunSshdMax
-
-  IfUsingQueues: !Or
-    - !Condition IfRunStreamLoader
-    - !Condition IfRunStreamProducer
-
   IfUsingWeb: !Or
-    - !Condition IfRunApiServer
-    - !Condition IfRunSwagger
     - !Condition IfRunWebApp
     - !Condition IfRunXterm
 
@@ -292,24 +238,6 @@ Resources:
 
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html
   # AWS Console: https://console.aws.amazon.com/iam/home?#/roles > Search for {stack}
-
-  IamRoleApiServer:
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-          - Action:
-              - sts:AssumeRole
-            Effect: Allow
-            Principal:
-              Service:
-                - ecs-tasks.amazonaws.com
-                - sqs.amazonaws.com
-        Version: "2012-10-17"
-      Description: !Sub "${AWS::StackName}-iam-role-api-server"
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-iam-role-api-server"
-    Type: AWS::IAM::Role
 
   IamRoleDebug:
     Properties:
@@ -382,23 +310,6 @@ Resources:
           Value: !Sub "${AWS::StackName}-iam-role-redoer"
     Type: AWS::IAM::Role
 
-  IamRoleSshd:
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-          - Action:
-              - sts:AssumeRole
-            Effect: Allow
-            Principal:
-              Service:
-                - ecs-tasks.amazonaws.com
-        Version: "2012-10-17"
-      Description: !Sub "${AWS::StackName}-iam-role-sshd"
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-iam-role-sshd"
-    Type: AWS::IAM::Role
-
   IamRoleStreamLoader:
     Properties:
       AssumeRolePolicyDocument:
@@ -417,42 +328,6 @@ Resources:
           Value: !Sub "${AWS::StackName}-iam-role-stream-loader"
     Type: AWS::IAM::Role
 
-  IamRoleStreamProducer:
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-          - Action:
-              - sts:AssumeRole
-            Effect: Allow
-            Principal:
-              Service:
-                - ecs-tasks.amazonaws.com
-                - sqs.amazonaws.com
-        Version: "2012-10-17"
-      Description: !Sub "${AWS::StackName}-iam-role-stream-producer"
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-iam-role-stream-producer"
-    Type: AWS::IAM::Role
-
-  IamRoleSwagger:
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-          - Action:
-              - sts:AssumeRole
-            Effect: Allow
-            Principal:
-              Service:
-                - ecs-tasks.amazonaws.com
-                - route53.amazonaws.com
-        Version: "2012-10-17"
-      Description: !Sub "${AWS::StackName}-iam-role-swagger"
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-iam-role-swagger"
-    Type: AWS::IAM::Role
-
   IamRoleWebApp:
     Properties:
       AssumeRolePolicyDocument:
@@ -463,6 +338,7 @@ Resources:
             Principal:
               Service:
                 - ecs-tasks.amazonaws.com
+                - sqs.amazonaws.com
         Version: "2012-10-17"
       Description: !Sub "${AWS::StackName}-iam-role-web-app"
       Tags:
@@ -504,7 +380,6 @@ Resources:
         Version: "2012-10-17"
       Roles:
         - !Ref IamRoleLambda
-        - !Ref IamRoleSwagger
         - !Ref IamRoleXterm
     Type: AWS::IAM::Policy
 
@@ -522,7 +397,6 @@ Resources:
         Version: "2012-10-17"
       Roles:
         - !Ref IamRoleLambda
-        - !Ref IamRoleSwagger
     Type: AWS::IAM::Policy
 
   IamPolicyCognito:
@@ -538,7 +412,6 @@ Resources:
         Version: "2012-10-17"
       Roles:
         - !Ref IamRoleLambda
-        - !Ref IamRoleSwagger
         - !Ref IamRoleXterm
     Type: AWS::IAM::Policy
 
@@ -557,6 +430,28 @@ Resources:
         - !Ref IamRoleLambda
     Type: AWS::IAM::Policy
 
+  IamPolicyECSTaskExecution:
+    Properties:
+      PolicyName: !Sub "${AWS::StackName}-iam-policy-ecs-task-execution"
+      PolicyDocument:
+        Statement:
+          - Action:
+              - ecr:GetAuthorizationToken
+              - ecr:BatchCheckLayerAvailability
+              - ecr:GetDownloadUrlForLayer
+              - ecr:BatchGetImage
+            Effect: Allow
+            Resource:
+              - "*"
+        Version: "2012-10-17"
+      Roles:
+        - !Ref IamRoleG2ConfigTool
+        - !Ref IamRoleRedoer
+        - !Ref IamRoleStreamLoader
+        - !Ref IamRoleWebApp
+        - !Ref IamRoleXterm
+    Type: AWS::IAM::Policy
+
   IamPolicyLoggingCreateStream:
     Properties:
       PolicyName: !Sub "${AWS::StackName}-iam-policy-logging-create-stream"
@@ -570,14 +465,10 @@ Resources:
               - "*"
         Version: "2012-10-17"
       Roles:
-        - !Ref IamRoleApiServer
         - !Ref IamRoleG2ConfigTool
         - !Ref IamRoleLambda
         - !Ref IamRoleRedoer
-        - !Ref IamRoleSshd
         - !Ref IamRoleStreamLoader
-        - !Ref IamRoleStreamProducer
-        - !Ref IamRoleSwagger
         - !Ref IamRoleWebApp
         - !Ref IamRoleXterm
     Type: AWS::IAM::Policy
@@ -593,12 +484,10 @@ Resources:
             Resource:
               - !GetAtt IamRoleG2ConfigTool.Arn
               - !GetAtt IamRoleLambda.Arn
-              - !GetAtt IamRoleStreamProducer.Arn
         Version: "2012-10-17"
       Roles:
         - !Ref IamRoleG2ConfigTool
         - !Ref IamRoleLambda
-        - !Ref IamRoleStreamProducer
     Type: AWS::IAM::Policy
 
   IamPolicyRoute53:
@@ -614,12 +503,11 @@ Resources:
         Version: "2012-10-17"
       Roles:
         - !Ref IamRoleLambda
-        - !Ref IamRoleSwagger
         - !Ref IamRoleXterm
     Type: AWS::IAM::Policy
 
   IamPolicySqsConsumer:
-    Condition: IfUsingQueues
+    Condition: IfRunStreamLoader
     Properties:
       PolicyName: !Sub "${AWS::StackName}-iam-policy-sqs-consumer"
       PolicyDocument:
@@ -638,28 +526,8 @@ Resources:
         - !Ref IamRoleStreamLoader
     Type: AWS::IAM::Policy
 
-  IamPolicySqsConsumerRedo:
-    Condition: IfUsingRedoQueues
-    Properties:
-      PolicyName: !Sub "${AWS::StackName}-iam-policy-sqs-consumer-redo"
-      PolicyDocument:
-        Statement:
-          - Action:
-              - sqs:DeleteMessage
-              - sqs:GetQueueAttributes
-              - sqs:ReceiveMessage
-            Effect: Allow
-            Resource:
-              - !GetAtt SqsRedoerDeadLetter.Arn
-              - !GetAtt SqsRedoerInput.Arn
-              - !GetAtt SqsRedoerOutput.Arn
-        Version: "2012-10-17"
-      Roles:
-        - !Ref IamRoleRedoer
-    Type: AWS::IAM::Policy
-
   IamPolicySqsProducer:
-    Condition: IfUsingQueues
+    Condition: IfRunStreamLoader
     Properties:
       PolicyName: !Sub "${AWS::StackName}-iam-policy-sqs-producer"
       PolicyDocument:
@@ -674,28 +542,7 @@ Resources:
               - !GetAtt SqsOutput.Arn
         Version: "2012-10-17"
       Roles:
-        - !Ref IamRoleStreamLoader
-        - !Ref IamRoleStreamProducer
-        - !Ref IamRoleApiServer
-    Type: AWS::IAM::Policy
-
-  IamPolicySqsProducerRedo:
-    Condition: IfUsingRedoQueues
-    Properties:
-      PolicyName: !Sub "${AWS::StackName}-iam-policy-sqs-producer-redo"
-      PolicyDocument:
-        Statement:
-          - Action:
-              - sqs:SendMessage
-              - sqs:GetQueueAttributes
-            Effect: Allow
-            Resource:
-              - !GetAtt SqsRedoerDeadLetter.Arn
-              - !GetAtt SqsRedoerInput.Arn
-              - !GetAtt SqsRedoerOutput.Arn
-        Version: "2012-10-17"
-      Roles:
-        - !Ref IamRoleRedoer
+        - !Ref IamRoleWebApp
     Type: AWS::IAM::Policy
 
   IamPolicyTaskRunner:
@@ -711,13 +558,10 @@ Resources:
               - "*"
         Version: "2012-10-17"
       Roles:
-        - !Ref IamRoleApiServer
         - !Ref IamRoleG2ConfigTool
         - !Ref IamRoleLambda
         - !Ref IamRoleRedoer
-        - !Ref IamRoleSshd
         - !Ref IamRoleStreamLoader
-        - !Ref IamRoleSwagger
         - !Ref IamRoleWebApp
         - !Ref IamRoleXterm
     Type: AWS::IAM::Policy
@@ -979,38 +823,11 @@ Resources:
           Fn::Sub: "${DatabaseStack}-ec2-VpcId"
     Type: AWS::EC2::SecurityGroup
 
-  Ec2SecurityGroupSshd:
-    Condition: IfUsingSshd
-    Properties:
-      GroupDescription: !Sub "${AWS::StackName} - SSHD service open ports."
-      SecurityGroupEgress:
-        - CidrIp: 0.0.0.0/0
-          Description: All
-          IpProtocol: "-1"
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ec2-security-group-sshd"
-      VpcId:
-        Fn::ImportValue:
-          Fn::Sub: "${DatabaseStack}-ec2-VpcId"
-    Type: AWS::EC2::SecurityGroup
-
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group-ingress.html
   # AWS Console: https://console.aws.amazon.com/vpc/home?#SecurityGroups: > Search for {stack}-ec2-security-group-alb-public > Inbound rules
 
-  Ec2SecurityGroupIngressApiServerPublic:
-    Condition: IfUsingApiServer
-    Properties:
-      Description: Allow Health Check on Container 8250 from ALB
-      FromPort: 8250
-      GroupId: !GetAtt Ec2SecurityGroupLoadBalancerPublic.GroupId
-      IpProtocol: tcp
-      SourceSecurityGroupId: !GetAtt Ec2SecurityGroupLoadBalancerPublic.GroupId
-      ToPort: 8250
-    Type: AWS::EC2::SecurityGroupIngress
-
   Ec2SecurityGroupIngressApiServerPrivate:
-    Condition: IfUsingApiServer
+    Condition: IfRunWebApp
     Properties:
       CidrIp:
         Fn::ImportValue:
@@ -1047,28 +864,6 @@ Resources:
         Fn::ImportValue:
           Fn::Sub: "${DatabaseStack}-ec2-security-group-internal"
       ToPort: 2049
-    Type: AWS::EC2::SecurityGroupIngress
-
-  Ec2SecurityGroupIngressSsh:
-    Condition: IfUsingSshd
-    Properties:
-      CidrIp: !Ref CidrInbound
-      Description: SSH
-      FromPort: 22
-      GroupId: !Ref Ec2SecurityGroupSshd
-      IpProtocol: tcp
-      ToPort: 22
-    Type: AWS::EC2::SecurityGroupIngress
-
-  Ec2SecurityGroupIngressSwagger:
-    Condition: IfRunSwagger
-    Properties:
-      Description: Allow Health Check on Container 8080 from ALB
-      FromPort: 8080
-      GroupId: !GetAtt Ec2SecurityGroupLoadBalancerPublic.GroupId
-      IpProtocol: tcp
-      SourceSecurityGroupId: !GetAtt Ec2SecurityGroupLoadBalancerPublic.GroupId
-      ToPort: 8080
     Type: AWS::EC2::SecurityGroupIngress
 
   Ec2SecurityGroupIngressWebApp:
@@ -1183,7 +978,7 @@ Resources:
   # AWS Console: https://console.aws.amazon.com/sqs/v2/home > Search on {stack}
 
   SqsInput:
-    Condition: IfUsingQueues
+    Condition: IfRunStreamLoader
     Properties:
       DelaySeconds: 0
       KmsMasterKeyId: alias/aws/sqs
@@ -1204,7 +999,7 @@ Resources:
     Type: AWS::SQS::Queue
 
   SqsDeadLetter:
-    Condition: IfUsingQueues
+    Condition: IfRunStreamLoader
     Properties:
       DelaySeconds: 0
       KmsMasterKeyId: alias/aws/sqs
@@ -1219,7 +1014,7 @@ Resources:
     Type: AWS::SQS::Queue
 
   SqsOutput:
-    Condition: IfUsingQueues
+    Condition: IfRunStreamLoader
     Properties:
       DelaySeconds: 0
       KmsMasterKeyId: alias/aws/sqs
@@ -1230,57 +1025,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-sqs-output"
-      VisibilityTimeout: 300
-    Type: AWS::SQS::Queue
-
-  SqsRedoerDeadLetter:
-    Condition: IfUsingRedoQueues
-    Properties:
-      DelaySeconds: 0
-      KmsMasterKeyId: alias/aws/sqs
-      MaximumMessageSize: 262144
-      MessageRetentionPeriod: 1209600
-      QueueName: !Sub "${AWS::StackName}-sqs-redoer-dead-letter"
-      ReceiveMessageWaitTimeSeconds: 0
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-sqs-redoer-queue-dead"
-      VisibilityTimeout: 30
-    Type: AWS::SQS::Queue
-
-  SqsRedoerInput:
-    Condition: IfUsingRedoQueues
-    Properties:
-      DelaySeconds: 0
-      KmsMasterKeyId: alias/aws/sqs
-      MaximumMessageSize: 262144
-      MessageRetentionPeriod: 1209600
-      QueueName: !Sub "${AWS::StackName}-sqs-redoer-input"
-      ReceiveMessageWaitTimeSeconds: 0
-      RedrivePolicy:
-        deadLetterTargetArn:
-          Fn::GetAtt:
-            - SqsRedoerDeadLetter
-            - Arn
-        maxReceiveCount: 100
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-sqs-redoer-input"
-      VisibilityTimeout: 300
-    Type: AWS::SQS::Queue
-
-  SqsRedoerOutput:
-    Condition: IfUsingRedoQueues
-    Properties:
-      DelaySeconds: 0
-      KmsMasterKeyId: alias/aws/sqs
-      MaximumMessageSize: 262144
-      MessageRetentionPeriod: 1209600
-      QueueName: !Sub "${AWS::StackName}-sqs-redoer-output"
-      ReceiveMessageWaitTimeSeconds: 0
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-sqs-redoer-output"
       VisibilityTimeout: 300
     Type: AWS::SQS::Queue
 
@@ -1938,36 +1682,6 @@ Resources:
       WebUsername: !Ref CognitoAdminEmail
     Type: Custom::LambdaRunnerCognitoCreateUser
 
-  LambdaRunnerG2ConfigTool:
-    Condition: IfRunStreamProducer
-    Properties:
-      ClusterId: !Ref EcsCluster
-      RunTaskParameters:
-        # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ecs.html#ECS.Client.run_task
-        cluster: !Ref EcsCluster
-        count: 1
-        launchType: FARGATE
-        networkConfiguration:
-          awsvpcConfiguration:
-            assignPublicIp: DISABLED
-            securityGroups:
-              - !Ref Ec2SecurityGroupLambdaRunner
-            subnets:
-              - Fn::ImportValue:
-                  Fn::Sub: "${DatabaseStack}-subnet-private-1"
-              - Fn::ImportValue:
-                  Fn::Sub: "${DatabaseStack}-subnet-private-2"
-        platformVersion: 1.4.0
-        tags:
-          - key: Name
-            value: !Sub "${AWS::StackName}-lambda-runner-g2configtool-run-task-parameters"
-        taskDefinition: !Ref EcsTaskDefinitionG2ConfigTool
-      ServiceToken: !GetAtt LambdaFunctionRunTaskAndWait.Arn
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-lambda-runner-g2configtool"
-    Type: Custom::LambdaRunnerG2ConfigTool
-
   LambdaRunnerGenerateCertificate:
     Condition: IfUsingWeb
     Properties:
@@ -2016,17 +1730,6 @@ Resources:
           Value: !Sub "${AWS::StackName}-lambda-runner-senzing-engine-configuration-json"
     Type: Custom::LambdaRunnerSenzingEngineConfigurationJson
 
-  LambdaRunnerSshPassword:
-    Condition: IfUsingSshd
-    Properties:
-      ClusterId: !Ref EcsCluster
-      Length: 16
-      ServiceToken: !GetAtt LambdaFunctionRandomString.Arn
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-lambda-runner-ssh-password"
-    Type: Custom::LambdaRunnerSshPassword
-
   LambdaRunnerStackNameAsLower:
     Properties:
       InputString: !Sub "${AWS::StackName}"
@@ -2035,39 +1738,6 @@ Resources:
         - Key: Name
           Value: !Sub "${AWS::StackName}-lambda-runner-stack-name-as-lower"
     Type: Custom::LambdaRunnerStackNameAsLower
-
-  LambdaRunnerStreamProducer:
-    Condition: IfRunStreamProducer
-    DependsOn:
-      - LambdaRunnerG2ConfigTool
-      - SqsInput
-    Properties:
-      ClusterId: !Ref EcsCluster
-      RunTaskParameters:
-        # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ecs.html#ECS.Client.run_task
-        cluster: !Ref EcsCluster
-        count: 1
-        launchType: FARGATE
-        networkConfiguration:
-          awsvpcConfiguration:
-            assignPublicIp: DISABLED
-            securityGroups:
-              - !Ref Ec2SecurityGroupLambdaRunner
-            subnets:
-              - Fn::ImportValue:
-                  Fn::Sub: "${DatabaseStack}-subnet-private-1"
-              - Fn::ImportValue:
-                  Fn::Sub: "${DatabaseStack}-subnet-private-2"
-        platformVersion: 1.4.0
-        tags:
-          - key: Name
-            value: !Sub "${AWS::StackName}-lambda-runner-stream-producer-run-task-parameters"
-        taskDefinition: !Ref EcsTaskDefinitionStreamProducer
-      ServiceToken: !GetAtt LambdaFunctionRunTask.Arn
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-lambda-runner-stream-producer"
-    Type: Custom::LambdaRunnerStreamProducer
 
   LambdaRunnerSubnets:
     Properties:
@@ -2153,7 +1823,7 @@ Resources:
   # AWS Console: https://console.aws.amazon.com/ec2/v2/home?#TargetGroups: > Search for {stack}
 
   TargetGroupApiServerPrivate:
-    Condition: IfUsingApiServer
+    Condition: IfRunWebApp
     DependsOn:
       - LoadBalancerPrivate
     Properties:
@@ -2175,64 +1845,6 @@ Resources:
           Value: "60"
         - Key: slow_start.duration_seconds
           Value: "120"
-      TargetType: ip
-      UnhealthyThresholdCount: 5
-      VpcId:
-        Fn::ImportValue:
-          Fn::Sub: "${DatabaseStack}-ec2-VpcId"
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-
-  TargetGroupApiServerPublic:
-    Condition: IfUsingApiServer
-    DependsOn:
-      - LoadBalancerPublic
-    Properties:
-      HealthCheckIntervalSeconds: 80
-      HealthCheckPath: "/api/heartbeat"
-      HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 50
-      HealthyThresholdCount: 2
-      Matcher:
-        HttpCode: 200-299
-      Name: !Sub "${AWS::StackName}-tg-api-pub"
-      Port: 8250
-      Protocol: HTTP
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-tg-api-pub"
-      TargetGroupAttributes:
-        - Key: deregistration_delay.timeout_seconds
-          Value: "60"
-        - Key: slow_start.duration_seconds
-          Value: "120"
-      TargetType: ip
-      UnhealthyThresholdCount: 5
-      VpcId:
-        Fn::ImportValue:
-          Fn::Sub: "${DatabaseStack}-ec2-VpcId"
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-
-  TargetGroupSwagger:
-    Condition: IfRunSwagger
-    DependsOn:
-      - LoadBalancerPublic
-    Properties:
-      HealthCheckIntervalSeconds: 80
-      HealthCheckPath: "/swagger/"
-      HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 50
-      HealthyThresholdCount: 2
-      Matcher:
-        HttpCode: 200-299
-      Name: !Sub "${AWS::StackName}-tg-swagger"
-      Port: 8080
-      Protocol: HTTP
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-target-group-swagger"
-      TargetGroupAttributes:
-        - Key: deregistration_delay.timeout_seconds
-          Value: "60"
       TargetType: ip
       UnhealthyThresholdCount: 5
       VpcId:
@@ -2328,7 +1940,7 @@ Resources:
   # AWS Console: https://console.aws.amazon.com/ec2/v2/home?#LoadBalancers: > {name} > "Listeners" tab
 
   ListenerApiServerPrivate:
-    Condition: IfUsingApiServer
+    Condition: IfRunWebApp
     Properties:
       DefaultActions:
         - TargetGroupArn: !Ref TargetGroupApiServerPrivate
@@ -2359,54 +1971,6 @@ Resources:
 
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listenerrule.html
   # AWS Console: https://console.aws.amazon.com/ec2/v2/home?#LoadBalancers: > {name} > "Listeners" tab > "View/edit rules"
-
-  ListenerRuleApiServer:
-    Condition: IfUsingApiServer
-    Properties:
-      Actions:
-        - AuthenticateCognitoConfig:
-            OnUnauthenticatedRequest: authenticate
-            Scope: openid
-            UserPoolArn: !GetAtt "UserPool.Arn"
-            UserPoolClientId: !Ref UserPoolClient
-            UserPoolDomain: !Ref UserPoolDomain
-          Order: 1
-          Type: authenticate-cognito
-        - Type: "forward"
-          TargetGroupArn: !Ref TargetGroupApiServerPublic
-          Order: 2
-      Conditions:
-        - Field: "path-pattern"
-          Values:
-            - "/api/*"
-            - "/api"
-      ListenerArn: !Ref ListenerPort443
-      Priority: 2
-    Type: "AWS::ElasticLoadBalancingV2::ListenerRule"
-
-  ListenerRuleSwagger:
-    Condition: IfRunSwagger
-    Properties:
-      Actions:
-        - AuthenticateCognitoConfig:
-            OnUnauthenticatedRequest: authenticate
-            Scope: openid
-            UserPoolArn: !GetAtt "UserPool.Arn"
-            UserPoolClientId: !Ref UserPoolClient
-            UserPoolDomain: !Ref UserPoolDomain
-          Order: 1
-          Type: authenticate-cognito
-        - Order: 2
-          TargetGroupArn: !Ref TargetGroupSwagger
-          Type: "forward"
-      Conditions:
-        - Field: "path-pattern"
-          Values:
-            - "/swagger/*"
-            - "/swagger"
-      ListenerArn: !Ref ListenerPort443
-      Priority: 4
-    Type: "AWS::ElasticLoadBalancingV2::ListenerRule"
 
   ListenerRuleWebApp:
     Condition: IfRunWebApp
@@ -2518,11 +2082,6 @@ Resources:
                         (For more details see the <a href="https://github.com/Senzing/entity-search-web-app">GitHub repository</a>)
                     </li>
                     <br />
-                    <li style="${SwaggerUI}">
-                        <b>Senzing API Server: </b> <a href="https://${Host}/api/heartbeat">https://${Host}/api/heartbeat</a>
-                      <br />
-                        (For more details see the <a href="https://github.com/Senzing/senzing-api-server">GitHub repository</a>)
-                    </li>
                     <br />
                     <li style="${Xterm}">
                         <b>Senzing XTerm: </b> <a href="https://${Host}/xterm">https://${Host}/xterm</a>
@@ -2530,22 +2089,6 @@ Resources:
                         (For more details see the <a href="https://github.com/Senzing/docker-xterm">GitHub repository</a>)
                     </li>
                     <br />
-                    <li style="${SwaggerUI}">
-                        <b>Senzing HTTP REST API: </b> <a href="https://${Host}/swagger">https://${Host}/swagger</a>
-                        <br />
-                        (For more details see the <a href="https://github.com/Senzing/senzing-rest-api-specification">GitHub repository</a>)
-                          <ul>
-                              <li><b>Servers:</b> <code>{protocol}://{host}:{port}{path}</code></li>
-                              <li><b>Server variables</b>:
-                                  <ol>
-                                      <li><b>protocol:</b> https</li>
-                                      <li><b>host:</b> ${Host}</li>
-                                      <li><b>port:</b> 443</li>
-                                      <li><b>path:</b> /api</li>
-                                  </ol>
-                              </li>
-                          </ul>
-                      </li>
                   </ol>
               </p>
               <p>
@@ -2558,7 +2101,6 @@ Resources:
               </html>
             - Contact: !Ref CognitoAdminEmail
               Host: !GetAtt LoadBalancerPublic.DNSName
-              SwaggerUI: !If [IfRunSwagger, "", "display: none"]
               WebApp: !If [IfRunWebApp, "", "display: none"]
               Xterm: !If [IfRunXterm, "", "display: none"]
           EmailSubject: !Sub "Information for AWS Cloudformation ${AWS::StackName} stack"
@@ -2619,112 +2161,7 @@ Resources:
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskdefinition.html
   # AWS Console: https://console.aws.amazon.com/ecs/home?#/taskDefinitions > Search for {stack}
 
-  EcsTaskDefinitionApiServer:
-    Condition: IfUsingApiServer
-    Properties:
-      ContainerDefinitions:
-        - Environment:
-            - Name: SENZING_API_SERVER_ALLOWED_ORIGINS
-              Value: "*"
-            - Name: SENZING_API_SERVER_BIND_ADDR
-              Value: all
-            - Name: SENZING_API_SERVER_ENABLE_ADMIN
-              Value: "true"
-            - Name: SENZING_API_SERVER_INIT_JSON
-              Value: !GetAtt SsmParameterSenzingEngineConfigurationJson.Value
-            - Name: SENZING_API_SERVER_PORT
-              Value: "8250"
-            - Name: SENZING_API_SERVER_SKIP_ENGINE_PRIMING
-              Value: "true"
-            - Name: SENZING_API_SERVER_SKIP_STARTUP_PERF
-              Value: "true"
-            - Name: SENZING_API_SERVER_URL_BASE_PATH
-              Value: /api
-            - Name: SENZING_API_SERVER_DEBUG
-              Value: "false"
-            - Name: SENZING_API_SERVER_VERBOSE
-              Value: "false"
-            - Name: SENZING_ENGINE_CONFIGURATION_JSON
-              Value: !GetAtt SsmParameterSenzingEngineConfigurationJson.Value
-            - Name: SENZING_SQS_LOAD_QUEUE_URL
-              Value: !If [IfUsingQueues, !Ref SqsInput, ""]
-            - Name: SENZING_SQS_INFO_QUEUE_URL
-              Value: !If [IfUsingQueues, !Ref SqsOutput, ""]
-          Essential: true
-          Image: !FindInMap
-            - SenzingVersionMap
-            - !Ref SenzingVersion
-            - ApiServer
-          LogConfiguration:
-            LogDriver: awslogs
-            Options:
-              awslogs-group: !Ref LogsLogGroupMain
-              awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: service
-          Name: api-server
-          PortMappings:
-            - ContainerPort: 8250
-              HostPort: 8250
-              Protocol: tcp
-          Privileged: false
-          ReadonlyRootFilesystem: false
-      Cpu: "2048"
-      ExecutionRoleArn: !GetAtt IamRoleApiServer.Arn
-      Family: !Sub "${AWS::StackName}-task-definition-api-server"
-      Memory: "16384"
-      NetworkMode: awsvpc
-      RequiresCompatibilities:
-        - FARGATE
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-task-definition-api-server"
-      TaskRoleArn: !GetAtt IamRoleApiServer.Arn
-    Type: AWS::ECS::TaskDefinition
-
-  EcsTaskDefinitionG2ConfigTool:
-    Condition: IfRunStreamProducer
-    Properties:
-      ContainerDefinitions:
-        - Command:
-            - '/bin/bash'
-            - '-c'
-            - 'echo "${SENZING_G2CONFIG_GTC}" >> /tmp/G2Config.gtc; /opt/senzing/g2/python/G2ConfigTool.py -f /tmp/G2Config.gtc'
-          Environment:
-            - Name: SENZING_ENGINE_CONFIGURATION_JSON
-              Value: !GetAtt SsmParameterSenzingEngineConfigurationJson.Value
-            - Name: SENZING_G2CONFIG_GTC
-              Value: |
-                addDataSource CUSTOMERS
-                addDataSource REFERENCE
-                addDataSource WATCHLIST
-                save
-          Essential: true
-          Image: !FindInMap
-            - SenzingVersionMap
-            - !Ref SenzingVersion
-            - SenzingApiTools
-          LogConfiguration:
-            LogDriver: awslogs
-            Options:
-              awslogs-group: !Ref LogsLogGroupMain
-              awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: job
-          Name: g2configtool
-          Privileged: false
-          ReadonlyRootFilesystem: false
-      Cpu: "2048"
-      ExecutionRoleArn: !GetAtt IamRoleG2ConfigTool.Arn
-      Family: !Sub "${AWS::StackName}-task-definition-g2configtool"
-      Memory: "12288"
-      NetworkMode: awsvpc
-      RequiresCompatibilities:
-        - FARGATE
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-task-definition-g2configtool"
-    Type: AWS::ECS::TaskDefinition
-
-  EcsTaskDefinitionRedoerLoader:
+  EcsTaskDefinitionRedoer:
     Condition: IfRunRedoer
     Properties:
       ContainerDefinitions:
@@ -2741,16 +2178,10 @@ Resources:
               Value: "600"
             - Name: SENZING_REDO_SLEEP_TIME_IN_SECONDS
               Value: "10"
-            - Name: SENZING_SQS_FAILURE_QUEUE_URL
-              Value: !Sub "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/${SqsRedoerDeadLetter.QueueName}"
-            - Name: SENZING_SQS_INFO_QUEUE_URL
-              Value: !Sub "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/${SqsRedoerOutput.QueueName}"
-            - Name: SENZING_SQS_REDO_QUEUE_URL
-              Value: !Sub "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/${SqsRedoerInput.QueueName}"
             - Name: SENZING_SUBCOMMAND
-              Value: read-from-sqs
+              Value: redo
             - Name: SENZING_THREADS_PER_PROCESS
-              Value: "8"
+              Value: "20"
           Essential: true
           Image: !FindInMap
             - SenzingVersionMap
@@ -2762,152 +2193,20 @@ Resources:
               awslogs-group: !Ref LogsLogGroupMain
               awslogs-region: !Ref AWS::Region
               awslogs-stream-prefix: service
-          Name: redoer-loader
+          Name: redoer
           Privileged: false
           ReadonlyRootFilesystem: false
       Cpu: "4096"
       ExecutionRoleArn: !GetAtt IamRoleRedoer.Arn
-      Family: !Sub "${AWS::StackName}-task-definition-redoer-loader"
-      Memory: "16384"
-      NetworkMode: awsvpc
-      RequiresCompatibilities:
-        - FARGATE
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-task-definition-redoer-loader"
-      TaskRoleArn: !GetAtt IamRoleRedoer.Arn
-    Type: AWS::ECS::TaskDefinition
-
-  EcsTaskDefinitionRedoerProducer:
-    Condition: IfRunRedoer
-    Properties:
-      ContainerDefinitions:
-        - Environment:
-            - Name: SENZING_ENGINE_CONFIGURATION_JSON
-              Value: !GetAtt SsmParameterSenzingEngineConfigurationJson.Value
-            - Name: SENZING_EXIT_ON_THREAD_TERMINATION
-              Value: "true"
-            - Name: SENZING_GOVERNOR_CHECK_TIME_INTERVAL_IN_SECONDS
-              Value: "600"
-            - Name: SENZING_LOG_LEVEL
-              Value: info
-            - Name: SENZING_MONITORING_PERIOD_IN_SECONDS
-              Value: "600"
-            - Name: SENZING_REDO_SLEEP_TIME_IN_SECONDS
-              Value: "10"
-            - Name: SENZING_SQS_REDO_QUEUE_URL
-              Value: !Sub "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/${SqsRedoerInput.QueueName}"
-            - Name: SENZING_SUBCOMMAND
-              Value: write-to-sqs
-            - Name: SENZING_THREADS_PER_PROCESS
-              Value: "12"
-          Essential: true
-          Image: !FindInMap
-            - SenzingVersionMap
-            - !Ref SenzingVersion
-            - Redoer
-          LogConfiguration:
-            LogDriver: awslogs
-            Options:
-              awslogs-group: !Ref LogsLogGroupMain
-              awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: service
-          Name: redoer-producer
-          Privileged: false
-          ReadonlyRootFilesystem: false
-      Cpu: "4096"
-      ExecutionRoleArn: !GetAtt IamRoleRedoer.Arn
-      Family: !Sub "${AWS::StackName}-task-definition-redoer-producer"
-      Memory: "16384"
-      NetworkMode: awsvpc
-      RequiresCompatibilities:
-        - FARGATE
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-task-definition-redoer-producer"
-      TaskRoleArn: !GetAtt IamRoleRedoer.Arn
-    Type: AWS::ECS::TaskDefinition
-
-  EcsTaskDefinitionSshd:
-    Condition: IfRunSshd
-    Properties:
-      ContainerDefinitions:
-        - Environment:
-            - Name: ROOT_PASSWORD
-              Value: !GetAtt LambdaRunnerSshPassword.RandomString
-            - Name: SENZING_ENGINE_CONFIGURATION_JSON
-              Value: !GetAtt SsmParameterSenzingEngineConfigurationJson.Value
-            - Name: SENZING_SKIP_DATABASE_PERFORMANCE_TEST
-              Value: "true"
-          Essential: true
-          Image: !FindInMap
-            - SenzingVersionMap
-            - !Ref SenzingVersion
-            - Sshd
-          LinuxParameters:
-            Capabilities:
-              Add:
-                - SYS_PTRACE
-          LogConfiguration:
-            LogDriver: awslogs
-            Options:
-              awslogs-group: !Ref LogsLogGroupMain
-              awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: service
-          Name: sshd
-          Privileged: false
-          ReadonlyRootFilesystem: false
-      Cpu: "2048"
-      ExecutionRoleArn: !GetAtt IamRoleSshd.Arn
-      Family: !Sub "${AWS::StackName}-task-definition-sshd"
-      Memory: "12288"
-      NetworkMode: awsvpc
-      RequiresCompatibilities:
-        - FARGATE
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-task-definition-sshd"
-    Type: AWS::ECS::TaskDefinition
-
-  EcsTaskDefinitionSshdMax:
-    Condition: IfRunSshdMax
-    Properties:
-      ContainerDefinitions:
-        - Environment:
-            - Name: ROOT_PASSWORD
-              Value: !GetAtt LambdaRunnerSshPassword.RandomString
-            - Name: SENZING_ENGINE_CONFIGURATION_JSON
-              Value: !GetAtt SsmParameterSenzingEngineConfigurationJson.Value
-            - Name: SENZING_SKIP_DATABASE_PERFORMANCE_TEST
-              Value: "true"
-          Essential: true
-          Image: !FindInMap
-            - SenzingVersionMap
-            - !Ref SenzingVersion
-            - Sshd
-          LinuxParameters:
-            Capabilities:
-              Add:
-                - SYS_PTRACE
-          LogConfiguration:
-            LogDriver: awslogs
-            Options:
-              awslogs-group: !Ref LogsLogGroupMain
-              awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: service
-          Name: sshd
-          Privileged: false
-          ReadonlyRootFilesystem: false
-      Cpu: "4096"
-      ExecutionRoleArn: !GetAtt IamRoleSshd.Arn
-      Family: !Sub "${AWS::StackName}-task-definition-sshd-max"
+      Family: !Sub "${AWS::StackName}-task-definition-redoer"
       Memory: "30720"
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-task-definition-sshd-max"
+          Value: !Sub "${AWS::StackName}-ecs-task-definition-redoer"
+      TaskRoleArn: !GetAtt IamRoleRedoer.Arn
     Type: AWS::ECS::TaskDefinition
 
   EcsTaskDefinitionStreamLoader:
@@ -2938,7 +2237,7 @@ Resources:
             - Name: SENZING_SUBCOMMAND
               Value: sqs
             - Name: SENZING_THREADS_PER_PROCESS
-              Value: "8"
+              Value: "20"
           Essential: true
           Image: !FindInMap
             - SenzingVersionMap
@@ -2953,10 +2252,10 @@ Resources:
           Name: stream-loader
           Privileged: false
           ReadonlyRootFilesystem: false
-      Cpu: "2048"
+      Cpu: "4096"
       ExecutionRoleArn: !GetAtt IamRoleStreamLoader.Arn
       Family: !Sub "${AWS::StackName}-task-definition-stream-loader"
-      Memory: "12288"
+      Memory: "30720"
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
@@ -2966,109 +2265,41 @@ Resources:
       TaskRoleArn: !GetAtt IamRoleStreamLoader.Arn
     Type: AWS::ECS::TaskDefinition
 
-  EcsTaskDefinitionStreamProducer:
-    Condition: IfRunStreamProducer
-    Properties:
-      ContainerDefinitions:
-        - Environment:
-            - Name: SENZING_DEFAULT_DATA_SOURCE
-              Value: !FindInMap [Constants, StreamProducer, DataSource]
-            - Name: SENZING_DEFAULT_ENTITY_TYPE
-              Value: !FindInMap [Constants, StreamProducer, EntityType]
-            - Name: SENZING_INPUT_URL
-              Value: !FindInMap [Constants, StreamProducer, InputUrl]
-            - Name: SENZING_MONITORING_PERIOD_IN_SECONDS
-              Value: "60"
-            - Name: SENZING_READ_QUEUE_MAXSIZE
-              Value: "200"
-            - Name: SENZING_RECORD_MAX
-              Value: !FindInMap [Constants, StreamProducer, RecordMax]
-            - Name: SENZING_RECORD_MIN
-              Value: !FindInMap [Constants, StreamProducer, RecordMin]
-            - Name: SENZING_RECORD_MONITOR
-              Value: "100000"
-            - Name: SENZING_SQS_QUEUE_URL
-              Value: !Sub "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/${SqsInput.QueueName}"
-            - Name: SENZING_SUBCOMMAND
-              Value: json-to-sqs
-            - Name: SENZING_THREADS_PER_PRINT
-              Value: "30"
-          Essential: true
-          Image: !FindInMap
-            - SenzingVersionMap
-            - !Ref SenzingVersion
-            - StreamProducer
-          LogConfiguration:
-            LogDriver: awslogs
-            Options:
-              awslogs-group: !Ref LogsLogGroupMain
-              awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: job
-          Name: producer
-          Privileged: false
-          ReadonlyRootFilesystem: false
-      Cpu: "1024"
-      ExecutionRoleArn: !GetAtt IamRoleStreamProducer.Arn
-      Family: !Sub "${AWS::StackName}-task-definition-stream-producer"
-      Memory: "8192"
-      NetworkMode: awsvpc
-      RequiresCompatibilities:
-        - FARGATE
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-task-definition-stream-producer"
-      TaskRoleArn: !GetAtt IamRoleStreamProducer.Arn
-    Type: AWS::ECS::TaskDefinition
-
-  EcsTaskDefinitionSwagger:
-    Condition: IfRunSwagger
-    Properties:
-      ContainerDefinitions:
-        - Environment:
-            - Name: BASE_URL
-              Value: /swagger
-            - Name: URL
-              Value: "https://raw.githubusercontent.com/Senzing/senzing-rest-api-specification/main/senzing-rest-api.yaml"
-          Essential: true
-          Image: !FindInMap
-            - SenzingVersionMap
-            - !Ref SenzingVersion
-            - Swagger
-          LogConfiguration:
-            LogDriver: awslogs
-            Options:
-              awslogs-group: !Ref LogsLogGroupMain
-              awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: service
-          Name: swagger
-          PortMappings:
-            - ContainerPort: 8080
-              HostPort: 8080
-              Protocol: tcp
-          Privileged: false
-          ReadonlyRootFilesystem: false
-      Cpu: "1024"
-      ExecutionRoleArn: !GetAtt IamRoleSwagger.Arn
-      Family: !Sub "${AWS::StackName}-task-definition-swagger"
-      Memory: "8192"
-      NetworkMode: awsvpc
-      RequiresCompatibilities:
-        - FARGATE
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-task-definition-swagger"
-      TaskRoleArn: !GetAtt IamRoleSwagger.Arn
-    Type: AWS::ECS::TaskDefinition
-
   EcsTaskDefinitionWebApp:
     Condition: IfRunWebApp
     Properties:
       ContainerDefinitions:
         - Environment:
+            - Name: SENZING_API_SERVER_ALLOWED_ORIGINS
+              Value: "*"
+            - Name: SENZING_API_SERVER_BIND_ADDR
+              Value: all
+            - Name: SENZING_API_SERVER_ENABLE_ADMIN
+              Value: "true"
+            - Name: SENZING_API_SERVER_INIT_JSON
+              Value: !GetAtt SsmParameterSenzingEngineConfigurationJson.Value
+            - Name: SENZING_API_SERVER_PORT
+              Value: "8250"
+            - Name: SENZING_API_SERVER_SKIP_ENGINE_PRIMING
+              Value: "true"
+            - Name: SENZING_API_SERVER_SKIP_STARTUP_PERF
+              Value: "true"
             - Name: SENZING_API_SERVER_URL
               Value: !Sub "http://${LoadBalancerPrivate.DNSName}:8250/api"
             - Name: SENZING_WEB_SERVER_PORT
               Value: "8251"
+            - Name: SENZING_API_SERVER_URL_BASE_PATH
+              Value: /api
+            - Name: SENZING_API_SERVER_DEBUG
+              Value: "false"
+            - Name: SENZING_API_SERVER_VERBOSE
+              Value: "false"
+            - Name: SENZING_ENGINE_CONFIGURATION_JSON
+              Value: !GetAtt SsmParameterSenzingEngineConfigurationJson.Value
+            - Name: SENZING_SQS_LOAD_QUEUE_URL
+              Value: !If [IfRunStreamLoader, !Ref SqsInput, ""]
+            - Name: SENZING_SQS_INFO_QUEUE_URL
+              Value: !If [IfRunStreamLoader, !Ref SqsOutput, ""]
             - Name: SENZING_WEB_SERVER_VIRTUAL_PATH
               Value: /app
             - Name: SENZING_WEB_SERVER_ADMIN_AUTH_MODE
@@ -3094,6 +2325,9 @@ Resources:
               awslogs-stream-prefix: service
           Name: webapp
           PortMappings:
+            - ContainerPort: 8250
+              HostPort: 8250
+              Protocol: tcp
             - ContainerPort: 8251
               HostPort: 8251
               Protocol: tcp
@@ -3102,10 +2336,10 @@ Resources:
               Protocol: tcp
           Privileged: false
           ReadonlyRootFilesystem: false
-      Cpu: "1024"
+      Cpu: "2048"
       ExecutionRoleArn: !GetAtt IamRoleWebApp.Arn
       Family: !Sub "${AWS::StackName}-task-definition-webapp"
-      Memory: "8192"
+      Memory: "16384"
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
@@ -3167,71 +2401,7 @@ Resources:
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html
   # AWS Console: https://console.aws.amazon.com/ecs/home?#/clusters > {stack}-cluster > "Services" tab
 
-  EcsServiceApiServer:
-    Condition: IfUsingApiServer
-    DependsOn:
-      - ListenerPort443
-      - ListenerRuleApiServer
-    Properties:
-      Cluster: !Ref EcsCluster
-      DesiredCount: 1
-      EnableECSManagedTags: true
-      LaunchType: FARGATE
-      LoadBalancers:
-        - ContainerPort: 8250
-          ContainerName: api-server
-          TargetGroupArn: !Ref TargetGroupApiServerPrivate
-        - ContainerPort: 8250
-          ContainerName: api-server
-          TargetGroupArn: !Ref TargetGroupApiServerPublic
-      NetworkConfiguration:
-        AwsvpcConfiguration:
-          AssignPublicIp: DISABLED
-          SecurityGroups:
-            - !Ref Ec2SecurityGroupLoadBalancerPrivate
-            - !Ref Ec2SecurityGroupLoadBalancerPublic
-          Subnets:
-            - Fn::ImportValue:
-                Fn::Sub: "${DatabaseStack}-subnet-private-1"
-            - Fn::ImportValue:
-                Fn::Sub: "${DatabaseStack}-subnet-private-2"
-      PlatformVersion: 1.4.0
-      PropagateTags: TASK_DEFINITION
-      ServiceName: api-server
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-service-api-server"
-      TaskDefinition: !Ref EcsTaskDefinitionApiServer
-    Type: AWS::ECS::Service
-
-  EcsServiceRedoerLoader:
-    Condition: IfRunRedoer
-    Properties:
-      Cluster: !Ref EcsCluster
-      DesiredCount: 2
-      EnableECSManagedTags: true
-      LaunchType: FARGATE
-      NetworkConfiguration:
-        AwsvpcConfiguration:
-          AssignPublicIp: DISABLED
-          SecurityGroups:
-            - Fn::ImportValue:
-                Fn::Sub: "${DatabaseStack}-ec2-security-group-internal"
-          Subnets:
-            - Fn::ImportValue:
-                Fn::Sub: "${DatabaseStack}-subnet-private-1"
-            - Fn::ImportValue:
-                Fn::Sub: "${DatabaseStack}-subnet-private-2"
-      PlatformVersion: 1.4.0
-      PropagateTags: TASK_DEFINITION
-      ServiceName: redoer-loader
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-service-redoer-loader"
-      TaskDefinition: !Ref EcsTaskDefinitionRedoerLoader
-    Type: AWS::ECS::Service
-
-  EcsServiceRedoerProducer:
+  EcsServiceRedoer:
     Condition: IfRunRedoer
     Properties:
       Cluster: !Ref EcsCluster
@@ -3251,59 +2421,11 @@ Resources:
                 Fn::Sub: "${DatabaseStack}-subnet-private-2"
       PlatformVersion: 1.4.0
       PropagateTags: TASK_DEFINITION
-      ServiceName: redoer-producer
+      ServiceName: redoer
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-service-redoer-producer"
-      TaskDefinition: !Ref EcsTaskDefinitionRedoerProducer
-    Type: AWS::ECS::Service
-
-  EcsServiceSshd:
-    Condition: IfRunSshd
-    Properties:
-      Cluster: !Ref EcsCluster
-      DesiredCount: 1
-      EnableECSManagedTags: true
-      LaunchType: FARGATE
-      NetworkConfiguration:
-        AwsvpcConfiguration:
-          AssignPublicIp: ENABLED
-          SecurityGroups:
-            - !Ref Ec2SecurityGroupSshd
-          Subnets:
-            - !Ref Ec2SubnetPublic1
-            - !Ref Ec2SubnetPublic2
-      PlatformVersion: 1.4.0
-      PropagateTags: TASK_DEFINITION
-      ServiceName: sshd
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-service-sshd"
-      TaskDefinition: !Ref EcsTaskDefinitionSshd
-    Type: AWS::ECS::Service
-
-  EcsServiceSshdMax:
-    Condition: IfRunSshdMax
-    Properties:
-      Cluster: !Ref EcsCluster
-      DesiredCount: 1
-      EnableECSManagedTags: true
-      LaunchType: FARGATE
-      NetworkConfiguration:
-        AwsvpcConfiguration:
-          AssignPublicIp: ENABLED
-          SecurityGroups:
-            - !Ref Ec2SecurityGroupSshd
-          Subnets:
-            - !Ref Ec2SubnetPublic1
-            - !Ref Ec2SubnetPublic2
-      PlatformVersion: 1.4.0
-      PropagateTags: TASK_DEFINITION
-      ServiceName: sshd-max
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-service-sshd-max"
-      TaskDefinition: !Ref EcsTaskDefinitionSshdMax
+          Value: !Sub "${AWS::StackName}-ecs-service-redoer"
+      TaskDefinition: !Ref EcsTaskDefinitionRedoer
     Type: AWS::ECS::Service
 
   EcsServiceStreamLoader:
@@ -3333,39 +2455,6 @@ Resources:
       TaskDefinition: !Ref EcsTaskDefinitionStreamLoader
     Type: AWS::ECS::Service
 
-  EcsServiceSwagger:
-    Condition: IfRunSwagger
-    DependsOn:
-      - ListenerPort443
-      - ListenerRuleSwagger
-    Properties:
-      Cluster: !Ref EcsCluster
-      DesiredCount: 1
-      EnableECSManagedTags: true
-      LaunchType: FARGATE
-      LoadBalancers:
-        - ContainerName: swagger
-          ContainerPort: 8080
-          TargetGroupArn: !Ref TargetGroupSwagger
-      NetworkConfiguration:
-        AwsvpcConfiguration:
-          AssignPublicIp: DISABLED
-          SecurityGroups:
-            - !Ref Ec2SecurityGroupLoadBalancerPublic
-          Subnets:
-            - Fn::ImportValue:
-                Fn::Sub: "${DatabaseStack}-subnet-private-1"
-            - Fn::ImportValue:
-                Fn::Sub: "${DatabaseStack}-subnet-private-2"
-      PlatformVersion: 1.4.0
-      PropagateTags: TASK_DEFINITION
-      ServiceName: swagger
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-ecs-service-swagger"
-      TaskDefinition: !Ref EcsTaskDefinitionSwagger
-    Type: AWS::ECS::Service
-
   EcsServiceWebApp:
     Condition: IfRunWebApp
     DependsOn:
@@ -3378,6 +2467,9 @@ Resources:
       EnableECSManagedTags: true
       LaunchType: FARGATE
       LoadBalancers:
+        - ContainerPort: 8250
+          ContainerName: webapp
+          TargetGroupArn: !Ref TargetGroupApiServerPrivate
         - ContainerName: webapp
           ContainerPort: 8251
           TargetGroupArn: !Ref TargetGroupWebApp
@@ -3388,6 +2480,7 @@ Resources:
         AwsvpcConfiguration:
           AssignPublicIp: DISABLED
           SecurityGroups:
+            - !Ref Ec2SecurityGroupLoadBalancerPrivate
             - !Ref Ec2SecurityGroupLoadBalancerPublic
           Subnets:
             - Fn::ImportValue:
@@ -3441,36 +2534,6 @@ Resources:
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalabletarget.html
   # AWS Console: https://console.aws.amazon.com/ecs/home?#/clusters > {stack}-cluster > {Service Name} > "Auto Scaling" tab
 
-  ApplicationAutoScalingScalableTargetApiServer:
-    Condition: IfUsingApiServer
-    Properties:
-      MaxCapacity: 200
-      MinCapacity: 1
-      ResourceId: !Sub "service/${EcsCluster}/${EcsServiceApiServer.Name}"
-      RoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
-      ScalableDimension: ecs:service:DesiredCount
-      ServiceNamespace: ecs
-      SuspendedState:
-        DynamicScalingInSuspended: false
-        DynamicScalingOutSuspended: false
-        ScheduledScalingSuspended: false
-    Type: AWS::ApplicationAutoScaling::ScalableTarget
-
-  ApplicationAutoScalingScalableTargetRedoerLoader:
-    Condition: IfRunRedoer
-    Properties:
-      MaxCapacity: 200
-      MinCapacity: 1
-      ResourceId: !Sub "service/${EcsCluster}/${EcsServiceRedoerLoader.Name}"
-      RoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
-      ScalableDimension: ecs:service:DesiredCount
-      ServiceNamespace: ecs
-      SuspendedState:
-        DynamicScalingInSuspended: false
-        DynamicScalingOutSuspended: false
-        ScheduledScalingSuspended: false
-    Type: AWS::ApplicationAutoScaling::ScalableTarget
-
   ApplicationAutoScalingScalableTargetStreamLoader:
     Condition: IfRunStreamLoader
     Properties:
@@ -3503,34 +2566,6 @@ Resources:
 
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html
   # AWS Console: https://console.aws.amazon.com/ecs/home?#/clusters > {stack}-cluster > {Service Name} > "Auto Scaling" tab
-
-  ApplicationAutoScalingScalingPolicyApiServer:
-    Condition: IfUsingApiServer
-    Properties:
-      PolicyName: !Sub "${AWS::StackName}-scaling-policy-api-server"
-      PolicyType: TargetTrackingScaling
-      ScalingTargetId: !Ref ApplicationAutoScalingScalableTargetApiServer
-      TargetTrackingScalingPolicyConfiguration:
-        PredefinedMetricSpecification:
-          PredefinedMetricType: ECSServiceAverageCPUUtilization
-        ScaleInCooldown: 1200
-        ScaleOutCooldown: 300
-        TargetValue: 30
-    Type: AWS::ApplicationAutoScaling::ScalingPolicy
-
-  ApplicationAutoScalingScalingPolicyRedoerLoader:
-    Condition: IfRunRedoer
-    Properties:
-      PolicyName: !Sub "${AWS::StackName}-scaling-policy-redoer-loader"
-      PolicyType: TargetTrackingScaling
-      ScalingTargetId: !Ref ApplicationAutoScalingScalableTargetRedoerLoader
-      TargetTrackingScalingPolicyConfiguration:
-        PredefinedMetricSpecification:
-          PredefinedMetricType: ECSServiceAverageCPUUtilization
-        ScaleInCooldown: 1200
-        ScaleOutCooldown: 300
-        TargetValue: 20
-    Type: AWS::ApplicationAutoScaling::ScalingPolicy
 
   ApplicationAutoScalingScalingPolicyStreamLoader:
     Condition: IfRunStreamLoader
@@ -3602,12 +2637,7 @@ Outputs:
       Name: !Sub "${AWS::StackName}-image-versions-part-1"
     Value: !Join
       - ""
-      - - "ApiServer:"
-        - !FindInMap
-          - SenzingVersionMap
-          - !Ref SenzingVersion
-          - ApiServer
-        - ", Redoer:"
+      - - "Redoer:"
         - !FindInMap
           - SenzingVersionMap
           - !Ref SenzingVersion
@@ -3617,33 +2647,11 @@ Outputs:
           - SenzingVersionMap
           - !Ref SenzingVersion
           - SenzingApiTools
-        - ", Sshd:"
-        - !FindInMap
-          - SenzingVersionMap
-          - !Ref SenzingVersion
-          - Sshd
-
-  ImageVersionsPart2:
-    Description: "List of Docker images used in this stack, part 2."
-    Export:
-      Name: !Sub "${AWS::StackName}-image-versions-part-2"
-    Value: !Join
-      - ""
-      - - "StreamLoader:"
+        - ", StreamLoader:"
         - !FindInMap
           - SenzingVersionMap
           - !Ref SenzingVersion
           - StreamLoader
-        - ", StreamProducer:"
-        - !FindInMap
-          - SenzingVersionMap
-          - !Ref SenzingVersion
-          - StreamProducer
-        - ", Swagger:"
-        - !FindInMap
-          - SenzingVersionMap
-          - !Ref SenzingVersion
-          - Swagger
         - ", WebApp:"
         - !FindInMap
           - SenzingVersionMap
@@ -3656,60 +2664,25 @@ Outputs:
           - Xterm
 
   QueueDeadLetter:
-    Condition: IfUsingQueues
+    Condition: IfRunStreamLoader
     Description: "URL of the dead-letter queue. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queuedeadletter"
     Export:
       Name: !Sub "${AWS::StackName}-sqs-deadletter"
     Value: !Ref SqsDeadLetter
 
   QueueInput:
-    Condition: IfUsingQueues
+    Condition: IfRunStreamLoader
     Description: "URL of the queue of records to be ingested into Senzing. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queueinput"
     Export:
       Name: !Sub "${AWS::StackName}-sqs-input"
     Value: !Ref SqsInput
 
   QueueOutput:
-    Condition: IfUsingQueues
+    Condition: IfRunStreamLoader
     Description: "URL of the queue with info records. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queueoutput"
     Export:
       Name: !Sub "${AWS::StackName}-sqs-output"
     Value: !Ref SqsOutput
-
-  QueueRedoerDeadLetter:
-    Condition: IfUsingRedoQueues
-    Description: "URL of the redoer dead-letter queue. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queueredoerdeadletter"
-    Export:
-      Name: !Sub "${AWS::StackName}-sqs-redoer-deadletter"
-    Value: !Ref SqsRedoerDeadLetter
-
-  QueueRedoerInput:
-    Condition: IfUsingRedoQueues
-    Description: "URL of the queue holding redo records to be processed. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queueredoerinput"
-    Export:
-      Name: !Sub "${AWS::StackName}-sqs-redoer-input"
-    Value: !Ref SqsRedoerInput
-
-  QueueRedoerOutput:
-    Condition: IfUsingRedoQueues
-    Description: "URL of the queue with redoer info records. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#queueredoeroutput"
-    Export:
-      Name: !Sub "${AWS::StackName}-sqs-redoer-output"
-    Value: !Ref SqsRedoerOutput
-
-  SshPassword:
-    Condition: IfUsingSshd
-    Description: "The randomly generated password for SSH access. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#sshpassword"
-    Export:
-      Name: !Sub "${AWS::StackName}-ssh-password"
-    Value: !GetAtt LambdaRunnerSshPassword.RandomString
-
-  SshUsername:
-    Condition: IfUsingSshd
-    Description: "The username for SSH access. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#sshusername"
-    Export:
-      Name: !Sub "${AWS::StackName}-ssh-username"
-    Value: root
 
   SubnetPublic1:
     Description: "The ID of public subnet 1. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#subnetpublic1"
@@ -3723,36 +2696,17 @@ Outputs:
       Name: !Sub "${AWS::StackName}-subnet-public-2"
     Value: !Ref Ec2SubnetPublic2
 
-  UrlApiServer:
-    Condition: IfUsingApiServer
-    Description: "URL for API Server. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#urlapiserver"
-    Export:
-      Name: !Sub "${AWS::StackName}-url-api-server"
-    Value: !Sub "https://${LoadBalancerPublic.DNSName}/api/"
-
-  UrlApiServerHeartbeat:
-    Condition: IfUsingApiServer
-    Description: "URL for API Server's heartbeat. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#urlapiserverheartbeat"
-    Value: !Sub "https://${LoadBalancerPublic.DNSName}/api/heartbeat/"
-
   UrlPrivateApiServer:
-    Condition: IfUsingApiServer
+    Condition: IfRunWebApp
     Description: "Private URL for API Server. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#urlprivateapiserver"
     Export:
       Name: !Sub "${AWS::StackName}-private-url-api-server"
     Value: !Sub "http://${LoadBalancerPrivate.DNSName}:8250/api/"
 
   UrlPrivateApiServerHeartbeat:
-    Condition: IfUsingApiServer
+    Condition: IfRunWebApp
     Description: "Private URL for API Server's heartbeat. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#urlprivateapiserverheartbeat"
     Value: !Sub "http://${LoadBalancerPrivate.DNSName}:8250/api/heartbeat/"
-
-  UrlSwagger:
-    Condition: IfRunSwagger
-    Description: "URL for Swagger. Help: https://hub.senzing.com/aws-marketplace-evaluation/details#urlswagger"
-    Export:
-      Name: !Sub "${AWS::StackName}-url-swagger"
-    Value: !Sub "https://${LoadBalancerPublic.DNSName}/swagger/"
 
   UrlWebApp:
     Condition: IfRunWebApp
