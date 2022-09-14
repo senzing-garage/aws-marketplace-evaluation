@@ -4,9 +4,11 @@
 
 The `aws-marketplace-evaluation` repo contains two AWS Cloudformation templates
 to deploy Senzing.  These templates rely on an AWS Marketplace subscription to install.
-To deploy Senzing without a Markeplace subscription take a look at our [Basic Stack
-Senzing Repo](https://github.com/Senzing/aws-cloudformation-ecs-senzing-stack-basic).
+To deploy Senzing without a Markeplace subscription take a look at our [Web App Demo Repo](https://github.com/Senzing/aws-cloudformation-webapp-demo).
 
+This stack provides a web application interface to the senzing engine.  It allows
+records to be loaded and entities and their connections explored through the web
+application.
 ## How to deploy without much thinking
 
 For more details, see [details of deployment](docs/README.md).
@@ -39,15 +41,15 @@ For more details, see [details of deployment](docs/README.md).
         1. Choose a stack name that is unique to you and 21 characters or less.  (Several resource types have a limit of 32 character names. The CFT uses the stack name and an 11 character suffix to name resources uniquely.)
     1. In **Parameters**
         1. In **Senzing installation**
-            1. If speed is desired over lower cost, choose "Multiple".
-            1. If lower cost is desired over speed, choose "Single".
+            1. If you plan on loading billions of records, choose "Multiple".
+            1. Otherwise, choose "Single".
         1. In **Security responsibility**
             1. Understand the nature of the security in the deployment.
             1. Once understood, enter "I AGREE".
     1. At lower-right, click "Next" button.
 1. In **Configure stack options**
     1. At lower-right, click "Next" button.
-1. In **Review senzing-db**
+1. In **Review senzing database stack**
     1. Near the bottom, in **Capabilities**
         1. Check ":ballot_box_with_check: I acknowledge that AWS CloudFormation might create IAM resources."
     1. At lower-right, click "Create stack" button.
@@ -86,7 +88,7 @@ For more details, see [details of deployment](docs/README.md).
     2. At lower-right, click "Next" button.
 2. In **Configure stack options**
     1. At lower-right, click "Next" button.
-3. In **Review senzing-basic**
+3. In **Review senzing stack**
     1. Near the bottom, in **Capabilities**
         1. Check ":ballot_box_with_check: I acknowledge that AWS CloudFormation might create IAM resources."
     2. At lower-right, click "Create stack" button.
