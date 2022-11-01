@@ -83,7 +83,7 @@ Mappings:
       Name: G2
       Username: senzing
     Images:
-      InitPostgresql: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/init-postgresql:1.1.3
+      InitPostgresql: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/init-postgresql:1.1.4
     Stack:
       Name: database-cluster
   VpcCidrs:
