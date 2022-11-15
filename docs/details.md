@@ -90,7 +90,7 @@ The following diagram shows a simplified representation of this deployment.
 
 This docker formation uses up the following docker containers:
 
-1. *[senzing/postgresql-client](https://github.com/Senzing/postgresql-client)*
+1. *[senzing/init-postgresql](https://github.com/Senzing/init-postgresql)*
 
 #### Launch cloudformation-senzing-database
 
@@ -176,18 +176,12 @@ AWS Cloudformation template creates the following resources:
 1. AWS services
     1. AWS Cognito
     1. AWS Elastic Container Service (ECS) Fargate
-    1. AWS Elastic File System (EFS)
     1. AWS Simple Queue Service (SQS)
 1. Senzing services
-    1. Senzing API server
-    1. Senzing Entity Search Web App
+    1. Senzing Web App Demo
     1. Senzing Redoer
-    1. Senzing SSH access
     1. Senzing Stream-Loader
     1. Senzing Xterm
-    1. SwaggerUI
-1. Optional services:
-    1. Senzing Stream-producer
 
 The following diagram shows the relationship of the docker containers in this docker composition.
 Arrows represent data flow.
@@ -196,19 +190,11 @@ Arrows represent data flow.
 
 This docker formation uses the following docker containers:
 
-1. *[busybox](https://hub.docker.com/_/busybox)*
-1. *[senzing/entity-web-search-app](https://github.com/Senzing/entity-search-web-app)*
-1. *[senzing/g2configtool](https://github.com/Senzing/docker-g2configtool)*
-1. *[senzing/init-container](https://github.com/Senzing/docker-init-container)*
-1. *[senzing/jupyter](https://github.com/Senzing/docker-jupyter)*
+1. *[senzing/docker-web-app-demo](https://github.com/Senzing/docker-web-app-demo)*
+1. *[senzing/senzingapi-tools](https://github.com/Senzing/senzingapi-tools)*
 1. *[senzing/redoer](https://github.com/Senzing/redoer)*
-1. *[senzing/senzing-api-server](https://github.com/Senzing/senzing-api-server)*
-1. *[senzing/sshd](https://github.com/Senzing/docker-sshd)*
 1. *[senzing/stream-loader](https://github.com/Senzing/stream-loader)*
-1. *[senzing/stream-producer](https://github.com/Senzing/stream-producer)*
 1. *[senzing/xterm](https://github.com/Senzing/docker-xterm)*
-1. *[senzing/yum](https://github.com/Senzing/docker-yum)*
-1. *[swaggerapi/swagger-ui](https://github.com/swagger-api/swagger-ui)*
 
 #### Launch cloudformation-senzing-basic
 
@@ -241,6 +227,7 @@ This docker formation uses the following docker containers:
         1. In **Security responsibility**
             1. Understand the nature of the security in the deployment.
             1. Once understood, enter "I AGREE".
+            1. In the drop-down, select a version of Senzing to install.  It is suggested to use the default, latest version.
     1. At lower-right, click "Next" button.
 1. In **Configure stack options**
         1. In **Permissions**
@@ -272,8 +259,6 @@ template can be see in the [AWS Management Console](https://console.aws.amazon.c
 1. Elastic Container Service (ECS)
     1. [Clusters](https://console.aws.amazon.com/ecs/home?#/clusters)
     1. [Task Definitions](https://console.aws.amazon.com/ecs/home?#/taskDefinitions)
-1. Elastic File System (EFS)
-    1. [File systems](https://console.aws.amazon.com/efs/home?#/filesystems)
 1. Identity and Access Management (IAM)
     1. Certificates
     1. [Policies](https://console.aws.amazon.com/iam/home?#/policies)
@@ -670,6 +655,16 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Where used:**
     1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
 
+### ImageVersions*
+
+1. **Synopsis:**
+   List of all the images used in the stack.
+1. **Details:**
+   A list of the Docker images used in this stack, including the version.
+1. **Where used:**
+    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+
 ### QueueDeadLetter
 
 1. **Synopsis:**
@@ -697,56 +692,6 @@ Technical information on AWS Cloudformation parameters can be seen at
    This is commonly called "WithInfo" information.
 1. **Details:**
    More information at [AWS SQS Console](https://console.aws.amazon.com/sqs/v2/home?#/queues).
-1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
-
-### QueueRedoerDeadLetter
-
-1. **Synopsis:**
-   The queue to which redo records that are not able to be redone by the Senzing Engine are sent.
-   In otherwords, if the message is malformed or Senzing denied redoing the message.
-1. **Details:**
-   More information at [AWS SQS Console](https://console.aws.amazon.com/sqs/v2/home?#/queues).
-1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
-
-### QueueRedoerInput
-
-1. **Synopsis:**
-   The queue populated by the `redoer` with records the Senzing Engine identified as needing
-   reevaluation.
-   The queue will be consumed by the fleet of `redoers` that read from the queue and send
-   to the Senzing Engine for reprocessing.
-   The results will be sent to the [QueueRedoerOutput](#queueredoeroutput).
-1. **Details:**
-   More information at [AWS SQS Console](https://console.aws.amazon.com/sqs/v2/home?#/queues).
-1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
-
-### QueueRedoerOutput
-
-1. **Synopsis:**
-   The queue that is populated with responses from reprocessing records.
-   This is commonly called "WithInfo" information from the `redoer`.
-1. **Details:**
-   More information at [AWS SQS Console](https://console.aws.amazon.com/sqs/v2/home?#/queues).
-1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
-
-### SshPassword
-
-1. **Synopsis:**
-   The [SshUsername](#sshusername)'s password to be used when logging into the SSHD container.
-1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
-
-### SshUsername
-
-1. **Synopsis:**
-   User ID to be used when logging into the SSHD container.
-1. **Details:**
-   Usually "root".
-   Logging in also requires the [SshPassword](#sshpassword) value.
 1. **Where used:**
     1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
 
@@ -792,73 +737,21 @@ Technical information on AWS Cloudformation parameters can be seen at
     1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
     1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
 
-### UrlApiServer
-
-1. **Synopsis:**
-   A URL showing how to reach the
-   [Senzing API Server](https://github.com/Senzing/senzing-api-server)
-   directly.
-1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
-
-### UrlApiServerHeartbeat
-
-1. **Synopsis:**
-   A URL showing how to reach the
-   [Senzing API Server](https://github.com/Senzing/senzing-api-server)'s
-   `/heartbeat` URI path.
-   This demonstrates that the API server is responding.
-1. **Details:**
-   For more URIs, see
-   [SwaggerUrl output value](#urlswagger).
-1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
-
-### UrlJupyter
-
-1. **Synopsis:**
-   A URL showing how to reach the
-   [Senzing Jupyter notebooks](https://github.com/Senzing/docker-jupyter).
-1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
-
 ### UrlPrivateApiServer
 
 1. **Synopsis:**
    A URL showing how to reach the
-   [Senzing API Server](https://github.com/Senzing/senzing-api-server)
+   [Senzing Web app demo API Server](https://github.com/Senzing/docker-web-app-demo)
    directly from within the same VPC.
 
 ### UrlPrivateApiServerHeartbeat
 
 1. **Synopsis:**
    A URL showing how to reach the
-   [Senzing API Server](https://github.com/Senzing/senzing-api-server)
+   [Senzing Web app demo API Server](https://github.com/Senzing/docker-web-app-demo)
    directly from within the same VPC.
    The `/heartbeat` URI path simply demonstrates that the API server is responding.
-   For more URIs, see
-   [SwaggerUrl output value](#urlswagger).
 
-### UrlSwagger
-
-1. **Synopsis:**
-   A URL showing how to reach the
-   [Swagger User Interface](https://github.com/swagger-api/swagger-ui).
-   By default, SwaggerUI is not enabled in the Cloudformation template.
-   To enable, in the Cloudformation template set `Mappings.Constants.Run.Swagger` to "Yes"
-   before deploying.
-1. **Usage:**
-   To access the Senzing API server
-    1. Using the URL, visit the `UrlSwagger` webpage.
-    1. In **Servers**
-        1. From the drop-down, select `{protocol}://{host}:{port}{path}`.
-        1. **protocol:** https
-        1. **host:** Enter the value of [Host](#host)
-        1. **port:** 443
-        1. **path:** /api
-    1. The HTTP URIs will now access the deployed Senzing API server.
-1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
 
 ### UrlWebApp
 
