@@ -8,7 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Updated to Senzing 3.3.2
+-
+
+## [1.1.3] - 2023-01-17
+
+### Changed in 1.1.3
+
+- Updated to Senzing 3.4.0
+- Updated database parameters
 
 ## [1.1.2] - 2022-10-13
 
