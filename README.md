@@ -10,7 +10,7 @@ This stack provides a web application interface to the senzing engine.  It allow
 records to be loaded and entities and their connections explored through the web
 application.
 
-For additional information, see [Senzing Evaluation Edition on AWS](https://docs.senzing.com/aws_marketplace/)
+For additional information, see [Senzing Evaluation Edition on AWS](https://docs.senzing.com/aws_marketplace/).
 ## How to deploy without much thinking
 
 For more details, see [details of deployment](docs/README.md).
