@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
--
+- updated consumer policy for new loader
 
 ## [1.1.3] - 2023-01-17
 
