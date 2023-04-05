@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+-
+
+## [1.1.4] - 2023-04-05
+
+### Changed in 1.1.4
+
+- Updated to Senzing 3.5.0
+- removed CFTs for Senzing 2.x
 - updated consumer policy for new loader
 
 ## [1.1.3] - 2023-01-17
