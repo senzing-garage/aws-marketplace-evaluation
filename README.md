@@ -11,6 +11,7 @@ records to be loaded and entities and their connections explored through the web
 application.
 
 For additional information, see [Senzing Evaluation Edition on AWS](https://docs.senzing.com/aws_marketplace/).
+
 ## How to deploy without much thinking
 
 For more details, see [details of deployment](docs/README.md).
@@ -27,12 +28,14 @@ For more details, see [details of deployment](docs/README.md).
 ## Install the Database Stack
 
 1. Download the Database Stack [AWS Cloudformation template example](https://raw.githubusercontent.com/Senzing/aws-marketplace-evaluation/main/cloudformation-senzing-database.yaml) from this repository to your local device.  Example:
-    ```
+
+    ```console
     curl -X GET \
         --output ~/cloudformation.yaml \
         https://raw.githubusercontent.com/Senzing/aws-marketplace-evaluation/main/cloudformation-senzing-database.yaml
     ```
-3. It is highly suggested to take a look at the AWS Cloudformation Template that has been downloaded.  This template is an example that deploys and configures a number of services and facilities.  While it is a working example, each business may have different requirements and their account may not have all the privledges required to deploy it.  Furthermore, the examples change over time and these files are meant to be treated as code files so they should be put under source control.
+
+1. It is highly suggested to take a look at the AWS Cloudformation Template that has been downloaded.  This template is an example that deploys and configures a number of services and facilities.  While it is a working example, each business may have different requirements and their account may not have all the privledges required to deploy it.  Furthermore, the examples change over time and these files are meant to be treated as code files so they should be put under source control.
 1. Visit the [AWS Cloudformation home](https://console.aws.amazon.com/cloudformation/home).
 1. At the upper-right, click the "Create stack" drop-down and choose "With new resources (standard)".
 1. In the "Specify template" area choose the "Upload a template file" radio button.
@@ -59,12 +62,14 @@ For more details, see [details of deployment](docs/README.md).
 ## Install the Basic Senzing Stack
 
 1. Download the Basic Stack [AWS Cloudformation template example](https://raw.githubusercontent.com/Senzing/aws-marketplace-evaluation/main/cloudformation-senzing-basic.yaml) from this repository to your local device.  Example:
-    ```
+
+    ```console
     curl -X GET \
         --output ~/cloudformation.yaml \
         https://raw.githubusercontent.com/Senzing/aws-marketplace-evaluation/main/cloudformation-senzing-basic.yaml
     ```
-3. It is highly suggested to take a look at the AWS Cloudformation Template that has been downloaded.  This template is an example that deploys and configures a number of services and facilities.  While it is a working and complete example, each business may have different requirements and their account may not have all the privledges required to deploy it.  Furthermore, the examples change over time and these files are meant to be treated as code files so they should be put under source control.
+
+1. It is highly suggested to take a look at the AWS Cloudformation Template that has been downloaded.  This template is an example that deploys and configures a number of services and facilities.  While it is a working and complete example, each business may have different requirements and their account may not have all the privledges required to deploy it.  Furthermore, the examples change over time and these files are meant to be treated as code files so they should be put under source control.
 1. Visit the [AWS Cloudformation home](https://console.aws.amazon.com/cloudformation/home).
 1. At the upper-right, click the "Create stack" drop-down and choose "With new resources (standard)".
 1. In the "Specify template" area choose the "Upload a template file" radio button.
@@ -87,20 +92,18 @@ For more details, see [details of deployment](docs/README.md).
         1. In **Security responsibility**
             1. Understand the nature of the security in the deployment.
             1. Once understood, enter "I AGREE".
-    2. At lower-right, click "Next" button.
-2. In **Configure stack options**
     1. At lower-right, click "Next" button.
-3. In **Review senzing stack**
+1. In **Configure stack options**
+    1. At lower-right, click "Next" button.
+1. In **Review senzing stack**
     1. Near the bottom, in **Capabilities**
         1. Check ":ballot_box_with_check: I acknowledge that AWS CloudFormation might create IAM resources."
-    2. At lower-right, click "Create stack" button.
+    1. At lower-right, click "Create stack" button.
 
 ## Additional topics
 
 1. [Details of deployment](docs/README.md)
 1. [How to load AWS Cloudformation queue](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/load-aws-cloudformation-queue.md)
-1. [How to update Senzing license](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/update-senzing-license.md)
-
 
 ## Security
 
@@ -279,6 +282,3 @@ For more details, see [details of deployment](docs/README.md).
     1. sqs:GetQueueAttributes
     1. sqs:ReceiveMessage
     1. sqs:SendMessage
-
-
-

@@ -305,8 +305,6 @@ template can be see in the [AWS Management Console](https://console.aws.amazon.c
 
 1. [How to migrate an AWS RDS database](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/migrate-aws-rds-database.md)
 1. [How to load AWS Cloudformation queue](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/load-aws-cloudformation-queue.md)
-1. [How to migrate Senzing in AWS Cloudformation](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/migrate-senzing-in-cloudformation.md)
-1. [How to update Senzing license](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/update-senzing-license.md)
 
 ## Parameters
 
@@ -651,7 +649,6 @@ Technical information on AWS Cloudformation parameters can be seen at
    The hostname of the loadbalancer that is a proxy to all of the services.
 1. **Details:**
    More information at [AWS Load Balancers console](https://console.aws.amazon.com/ec2/v2/home?#LoadBalancers:).
-   Also used as the `host` value when using [UrlSwagger](#urlswagger).
 1. **Where used:**
     1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
 
@@ -751,7 +748,6 @@ Technical information on AWS Cloudformation parameters can be seen at
    [Senzing Web app demo API Server](https://github.com/Senzing/docker-web-app-demo)
    directly from within the same VPC.
    The `/heartbeat` URI path simply demonstrates that the API server is responding.
-
 
 ### UrlWebApp
 
