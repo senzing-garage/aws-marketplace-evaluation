@@ -92,6 +92,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - update certificate python to 3.8 and add `-1.0.2` to the filename `self-signed-certificate.zip`
 - redoer queue parameters: ApplicationAutoScalingScalingPolicyRedoerLoader targetValue = 20
 - add private API server URL
+
 ## [1.0.7] - 2022-03-10
 
 ### Changed in 1.0.7
@@ -135,7 +136,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed in 1.0.1
 
 - Updated lambda function error reporting
-
 
 ## [1.0.0] - 2021-09-10
 
