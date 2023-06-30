@@ -7,7 +7,7 @@ AWSTemplateFormatVersion: 2010-09-09
 #     aws cloudformation validate-template: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/validate-template.html
 
 Description: >-
-  Senzing aws-marketplace-evaluation: 1.1.6
+  Senzing aws-marketplace-evaluation: 1.1.7
   For more information see
   https://github.com/Senzing/aws-marketplace-evaluation
 
@@ -119,7 +119,8 @@ Parameters:
       - "3.5.0"
       - "3.5.2"
       - "3.5.3"
-    Default: "3.5.3"
+      - "3.6.0"
+    Default: "3.6.0"
     Description: "Help: https://hub.senzing.com/aws-cloudformation-ecs-senzing-stack-basic/#senzingversion"
     Type: String
 
@@ -227,6 +228,12 @@ Mappings:
       StreamLoader: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-loader:2.2.7
       WebApp: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/web-app-demo:2.4.10
       Xterm: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/xterm:1.4.10
+    "3.6.0":
+      Redoer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/redoer:2.1.9
+      SenzingApiTools: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/senzingapi-tools:3.6.0
+      StreamLoader: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/stream-loader:2.2.8
+      WebApp: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/web-app-demo:2.4.11
+      Xterm: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/xterm:1.4.11
 
   Constants:
     Run:
