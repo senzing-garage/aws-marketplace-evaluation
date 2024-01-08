@@ -1,3 +1,5 @@
+---
+
 name: Copy CFTs to S3
 on:
   release:

@@ -3,7 +3,7 @@
 ## Synopsis
 
 The
-[aws-marketplace-evaluation](https://github.com/Senzing/aws-marketplace-evaluation)
+[aws-marketplace-evaluation](https://github.com/senzing-garage/aws-marketplace-evaluation)
 AWS Cloudformation Templates demonstrate a Senzing stack on the AWS platform
 using AWS services such as Aurora Postgres database, SQS, and ECS.
 The docker images for these Senzing stacks are kept in the AWS Marketplace.
@@ -40,12 +40,12 @@ using that database.  Available AWS Marketplace evaluation cloudformation templa
 
 At [Senzing](http://senzing.com),
 we strive to create GitHub documentation in a
-"[don't make me think](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/dont-make-me-think.md)" style.
+"[don't make me think](https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/dont-make-me-think.md)" style.
 For the most part, instructions are copy and paste.
 Whenever thinking is needed, it's marked with a "thinking" icon :thinking:.
 Whenever customization is needed, it's marked with a "pencil" icon :pencil2:.
 If the instructions are not clear, please let us know by opening a new
-[Documentation issue](https://github.com/Senzing/aws-marketplace-evaluation/issues/new?template=documentation_request.md)
+[Documentation issue](https://github.com/senzing-garage/aws-marketplace-evaluation/issues/new?template=documentation_request.md)
 describing where we can improve.   Now on with the show...
 
 ### Legend
@@ -60,7 +60,7 @@ describing where we can improve.   Now on with the show...
 
 - **Time:** Budget 40 minutes to get the demonstration up-and-running.
 - **Background knowledge:** This repository assumes a working knowledge of:
-  - [AWS Cloudformation](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/aws-cloudformation.md)
+  - [AWS Cloudformation](https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/aws-cloudformation.md)
 
 ## Cloudformations
 
@@ -69,7 +69,7 @@ describing where we can improve.   Now on with the show...
 #### Overview of cloudformation-senzing-database
 
 The
-[cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+[cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 AWS Cloudformation template creates the following resources:
 
 1. AWS infrastructure
@@ -90,7 +90,7 @@ The following diagram shows a simplified representation of this deployment.
 
 This docker formation uses up the following docker containers:
 
-1. *[senzing/init-postgresql](https://github.com/Senzing/init-postgresql)*
+1. *[senzing/init-postgresql](https://github.com/senzing-garage/init-postgresql)*
 
 #### Launch cloudformation-senzing-database
 
@@ -126,7 +126,7 @@ This docker formation uses up the following docker containers:
 #### Review cloudformation-senzing-database
 
 The AWS resources created by the
-[cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+[cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 template can be see in the [AWS Management Console](https://console.aws.amazon.com).
 
 1. CloudFormation
@@ -161,7 +161,7 @@ template can be see in the [AWS Management Console](https://console.aws.amazon.c
 #### Overview of cloudformation-senzing-basic
 
 The
-[cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+[cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 AWS Cloudformation template creates the following resources:
 
 1. AWS infrastructure
@@ -192,9 +192,9 @@ This docker formation uses the following docker containers:
 
 1. *[senzing/docker-web-app-demo](https://github.com/Senzing/docker-web-app-demo)*
 1. *[senzing/senzingapi-tools](https://github.com/Senzing/senzingapi-tools)*
-1. *[senzing/redoer](https://github.com/Senzing/redoer)*
-1. *[senzing/stream-loader](https://github.com/Senzing/stream-loader)*
-1. *[senzing/xterm](https://github.com/Senzing/docker-xterm)*
+1. *[senzing/redoer](https://github.com/senzing-garage/redoer)*
+1. *[senzing/stream-loader](https://github.com/senzing-garage/stream-loader)*
+1. *[senzing/xterm](https://github.com/senzing-garage/docker-xterm)*
 
 #### Launch cloudformation-senzing-basic
 
@@ -243,7 +243,7 @@ This docker formation uses the following docker containers:
 #### Review cloudformation-senzing-basic
 
 The AWS resources created by the
-[cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+[cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 template can be see in the [AWS Management Console](https://console.aws.amazon.com).
 
 1. CloudFormation
@@ -303,8 +303,8 @@ template can be see in the [AWS Management Console](https://console.aws.amazon.c
 
 ## Additional topics
 
-1. [How to migrate an AWS RDS database](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/migrate-aws-rds-database.md)
-1. [How to load AWS Cloudformation queue](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/load-aws-cloudformation-queue.md)
+1. [How to migrate an AWS RDS database](https://github.com/senzing-garage/knowledge-base/blob/main/HOWTO/migrate-aws-rds-database.md)
+1. [How to load AWS Cloudformation queue](https://github.com/senzing-garage/knowledge-base/blob/main/HOWTO/load-aws-cloudformation-queue.md)
 
 ## Parameters
 
@@ -318,10 +318,10 @@ Technical information on AWS Cloudformation parameters can be seen at
    This step is intentionally tricky to ensure that you make a conscious effort to accept the EULA.
 1. **Required:** Yes
 1. **Type:** String
-1. **Allowed values:** See [SENZING_ACCEPT_EULA](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_accept_eula).
+1. **Allowed values:** See [SENZING_ACCEPT_EULA](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_accept_eula).
 1. **Default:** None
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### CidrInbound
 
@@ -341,7 +341,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Example:** 45.26.129.200/32
 1. **Default:** None
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### CognitoAdminEmail
 
@@ -356,7 +356,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Example:** `me@example.com`
 1. **Default:** None
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### DatabaseStack
 
@@ -371,7 +371,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Example:** `senzing-db`
 1. **Default:** None
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### MultipleDatabases
 
@@ -388,7 +388,7 @@ Technical information on AWS Cloudformation parameters can be seen at
     2. "Single"
 1. **Default:** Multiple
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### SecurityResponsibility
 
@@ -398,7 +398,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    and HTTPS (using a self-signed certificate) for encrypted network traffic
    to expose services through a single, internet-facing AWS Elastic Load Balancer.
    With exception of the
-   [senzing/sshd](https://github.com/Senzing/docker-sshd) container,
+   [senzing/sshd](https://github.com/senzing-garage/docker-sshd) container,
    no tasks in the AWS Elastic Container Service (ECS) have public IP addresses.
 
    To enable additional security measures for the deployment in your specific environment,
@@ -416,8 +416,8 @@ Technical information on AWS Cloudformation parameters can be seen at
     1. "I AGREE"
 1. **Default:** None
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### SenzingLicenseAsBase64
 
@@ -463,7 +463,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 
 1. **Default:** None
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### SenzingVersion
 
@@ -474,7 +474,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Type:** Choice
 1. **Default:** Latest version in the list.
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ## Outputs
 
@@ -486,7 +486,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Details:**
    It is listed first in alphabetical order because the name "cheats" and uses a zero instead of a capital "o".
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### AccountID
 
@@ -497,8 +497,8 @@ Technical information on AWS Cloudformation parameters can be seen at
    [AWS Management Console](https://console.aws.amazon.com/console/home)
    user dropdown "My Account" value.
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### CertificateArn
 
@@ -509,7 +509,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    [AWS LoadBalancer Console](https://console.aws.amazon.com/ec2/v2/home#LoadBalancers).
    Select a load balancer, view the "Listeners" tab, then click "View/edit certificates".
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### DatabaseHostCore
 
@@ -520,7 +520,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    [AWS RDS Console](https://console.aws.amazon.com/rds/home?#databases:).
    If a "Single" database was deployed, it will point to the single database host.
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### DatabaseHostLibfeat
 
@@ -531,7 +531,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    [AWS RDS Console](https://console.aws.amazon.com/rds/home?#databases:).
    If a "Single" database was deployed, it will point to the single database host.
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### DatabaseHostRes
 
@@ -542,7 +542,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    [AWS RDS Console](https://console.aws.amazon.com/rds/home?#databases:).
    If a "Single" database was deployed, it will point to the single database host.
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### DatabaseName
 
@@ -552,14 +552,14 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Details:**
    Usually "G2".
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### DatabasePassword
 
 1. **Synopsis:**
    The randomly-generated administrative password for authenticating with the database.
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### DatabasePortCore
 
@@ -570,7 +570,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    [AWS RDS Console](https://console.aws.amazon.com/rds/home?#databases:).
    If a "Single" database was deployed, it will point to the single database port.
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### DatabasePortLibfeat
 
@@ -581,7 +581,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    [AWS RDS Console](https://console.aws.amazon.com/rds/home?#databases:)
    If a "Single" database was deployed, it will point to the single database port.
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### DatabasePortRes
 
@@ -592,7 +592,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    [AWS RDS Console](https://console.aws.amazon.com/rds/home?#databases:).
    If a "Single" database was deployed, it will point to the single database port.
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### DatabaseUsername
 
@@ -601,7 +601,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Details:**
    More information at [AWS RDS Console](https://console.aws.amazon.com/rds/home).
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### Ec2InternetGateway
 
@@ -611,7 +611,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    See the route table having a "Name" in the form `{StackName}-ec2-route-table-private` in the
    [AWS VPC Console](https://console.aws.amazon.com/vpc/home?#RouteTables).
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### Ec2SecurityGroupInternal
 
@@ -621,7 +621,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    See the security group having a "Name" in the form `{StackName}-ec2-security-group-internal` in the
    [AWS VPC Console](https://console.aws.amazon.com/vpc/home?#SecurityGroups ).
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### Ec2Vpc
 
@@ -631,7 +631,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    See the VPC having a "Name" in the form `{StackName}-ec2-vpc` in the
    More information at [AWS VPC Console](https://console.aws.amazon.com/vpc/home?#vpcs:).
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### Ec2VpcCidrBlock
 
@@ -641,7 +641,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    See the "IPV4 CIDR" having a "Name" in the form `{StackName}-ec2-vpc` in the
    [AWS VPC Console](https://console.aws.amazon.com/vpc/home?#vpcs).
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### Host
 
@@ -650,7 +650,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Details:**
    More information at [AWS Load Balancers console](https://console.aws.amazon.com/ec2/v2/home?#LoadBalancers:).
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### ImageVersions*
 
@@ -659,8 +659,8 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Details:**
    A list of the Docker images used in this stack, including the version.
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### QueueDeadLetter
 
@@ -670,7 +670,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Details:**
    More information at [AWS SQS Console](https://console.aws.amazon.com/sqs/v2/home?#/queues).
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### QueueInput
 
@@ -680,7 +680,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Details:**
    More information at [AWS SQS Console](https://console.aws.amazon.com/sqs/v2/home?#/queues).
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### QueueOutput
 
@@ -690,7 +690,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Details:**
    More information at [AWS SQS Console](https://console.aws.amazon.com/sqs/v2/home?#/queues).
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### SubnetPrivate1
 
@@ -700,7 +700,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    See the subnet having a Name in the form `{StackName}-ec2-subnet-private-1` in the
    [AWS Virtual Private Cloud console](https://console.aws.amazon.com/vpc/home?#subnets:).
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### SubnetPrivate2
 
@@ -710,7 +710,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    See the subnet having a Name in the form `{StackName}-ec2-subnet-private-2` in the
    [AWS Virtual Private Cloud console](https://console.aws.amazon.com/vpc/home?#subnets:).
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
 
 ### SubnetPublic1
 
@@ -720,8 +720,8 @@ Technical information on AWS Cloudformation parameters can be seen at
    See the subnet having a Name in the form `{StackName}-ec2-subnet-public-1` in the
    [AWS Virtual Private Cloud console](https://console.aws.amazon.com/vpc/home?#subnets:).
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### SubnetPublic2
 
@@ -731,8 +731,8 @@ Technical information on AWS Cloudformation parameters can be seen at
    See the subnet having a Name in the form `{StackName}-ec2-subnet-public-2` in the
    [AWS Virtual Private Cloud console](https://console.aws.amazon.com/vpc/home?#subnets:).
 1. **Where used:**
-    1. [cloudformation-senzing-database.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-database.yaml)
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-database.yaml](../cloudformation-senzing-database.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### UrlPrivateApiServer
 
@@ -755,18 +755,18 @@ Technical information on AWS Cloudformation parameters can be seen at
    A URL showing how to reach the
    [Senzing Entity Search Web App](https://github.com/Senzing/entity-search-web-app).
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### UrlXterm
 
 1. **Synopsis:**
    A URL showing how to reach the
-   [Senzing Xterm](https://github.com/Senzing/docker-xterm).
+   [Senzing Xterm](https://github.com/Senzing/senzing-garage).
 1. **Usage:**
    From this Linux terminal, `G2Command.py`, `G2Explorer.py`, `G2ConfigTool.py`,
    can be run.
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### UserInitPassword
 
@@ -776,7 +776,7 @@ Technical information on AWS Cloudformation parameters can be seen at
    When the one-time password is used, the user is prompted for a new password.
    Once a new password is submitted, the one-time password has no value.
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### UserName
 
@@ -786,7 +786,7 @@ Technical information on AWS Cloudformation parameters can be seen at
 1. **Details:**
    To add users, see [UserPool](#userpool)
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
 
 ### UserPool
 
@@ -794,4 +794,4 @@ Technical information on AWS Cloudformation parameters can be seen at
    The specific [UserPool](https://console.aws.amazon.com/cognito/users/#/pool/u) URL.
    It can be used to add, manage, or delete users for this Cloudformation.
 1. **Where used:**
-    1. [cloudformation-senzing-basic.yaml](https://github.com/Senzing/aws-marketplace-evaluation/blob/main/cloudformation-senzing-basic.yaml)
+    1. [cloudformation-senzing-basic.yaml](../cloudformation-senzing-basic.yaml)
