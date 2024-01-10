@@ -1,10 +1,22 @@
 # aws-marketplace-evaluation
 
+If you are beginning your journey with
+[Senzing](https://senzing.com/),
+please start with
+[Senzing Quick Start guides](https://docs.senzing.com/quickstart/).
+
+You are in the
+[Senzing Garage](https://github.com/senzing-garage)
+where projects are "tinkered" on.
+Although this GitHub repository may help you understand an approach to using Senzing,
+it's not considered to be "production ready" and is not considered to be part of the Senzing product.
+Heck, it may not even be appropriate for your application of Senzing!
+
 ## Synopsis
 
 The `aws-marketplace-evaluation` repo contains two AWS Cloudformation templates
 to deploy Senzing.  These templates rely on an AWS Marketplace subscription to install.
-To deploy Senzing without a Markeplace subscription take a look at our [Web App Demo Repo](https://github.com/Senzing/aws-cloudformation-webapp-demo).
+To deploy Senzing without a Markeplace subscription take a look at our [Web App Demo Repo](https://github.com/senzing-garage/aws-cloudformation-webapp-demo).
 
 This stack provides a web application interface to the senzing engine.  It allows
 records to be loaded and entities and their connections explored through the web
@@ -23,7 +35,7 @@ For more details, see [details of deployment](docs/README.md).
    can help evaluate costs.
 1. :warning: **Warning:**
    This Cloudformation deployment only runs in
-   [supported AWS Regions](https://github.com/Senzing/knowledge-base/blob/main/lists/aws-supported-regions.md).
+   [supported AWS Regions](https://github.com/senzing-garage/knowledge-base/blob/main/lists/aws-supported-regions.md).
 
 ## Install the Database Stack
 
@@ -103,7 +115,7 @@ For more details, see [details of deployment](docs/README.md).
 ## Additional topics
 
 1. [Details of deployment](docs/README.md)
-1. [How to load AWS Cloudformation queue](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/load-aws-cloudformation-queue.md)
+1. [How to load AWS Cloudformation queue](https://github.com/senzing-garage/knowledge-base/blob/main/HOWTO/load-aws-cloudformation-queue.md)
 
 ## Security
 
