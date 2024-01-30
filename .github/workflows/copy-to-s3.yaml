@@ -11,7 +11,7 @@ jobs:
       FILE_TO_COPY_1: cloudformation-senzing-basic
       FILE_TO_COPY_2: cloudformation-senzing-database
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
