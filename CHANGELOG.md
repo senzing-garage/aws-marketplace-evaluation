@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 -
+## [1.1.8] - 2024-03-??
+
+### Changed in 1.1.8
+
+- removed stream-loader and queues
+- Updated to Senzing 3.9.0
+- updated docker images
 
 ## [1.1.7] - 2023-06-30
 
