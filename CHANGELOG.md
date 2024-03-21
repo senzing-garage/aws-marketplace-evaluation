@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed in 1.1.8
 
 - removed stream-loader and queues
+- move from init-postgres to init-database docker image
 - Updated to Senzing 3.9.0
 - updated docker images
 
