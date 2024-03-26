@@ -815,17 +815,6 @@ Resources:
       ToPort: 8251
     Type: AWS::EC2::SecurityGroupIngress
 
-  Ec2SecurityGroupIngressWebAppWss:
-    Condition: IfRunWebApp
-    Properties:
-      Description: Allow Websocket on Container port 8255 from ALB
-      FromPort: 8255
-      GroupId: !GetAtt Ec2SecurityGroupLoadBalancerPublic.GroupId
-      IpProtocol: tcp
-      SourceSecurityGroupId: !GetAtt Ec2SecurityGroupLoadBalancerPublic.GroupId
-      ToPort: 8255
-    Type: AWS::EC2::SecurityGroupIngress
-
   Ec2SecurityGroupIngressXterm:
     Condition: IfRunXterm
     Properties:
@@ -1762,28 +1751,6 @@ Resources:
           Fn::Sub: "${DatabaseStack}-ec2-VpcId"
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
 
-  TargetGroupWebAppWss:
-    Condition: IfRunWebApp
-    DependsOn:
-      - LoadBalancerPublic
-    Properties:
-      Matcher:
-        HttpCode: 200-299
-      Name: !Sub "${AWS::StackName}-tg-web-wss"
-      Port: 8255
-      Protocol: HTTP
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-tg-web-wss"
-      TargetGroupAttributes:
-        - Key: deregistration_delay.timeout_seconds
-          Value: "60"
-      TargetType: ip
-      VpcId:
-        Fn::ImportValue:
-          Fn::Sub: "${DatabaseStack}-ec2-VpcId"
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-
   TargetGroupXterm:
     Condition: IfRunXterm
     DependsOn:
@@ -1876,30 +1843,6 @@ Resources:
             - "/app"
       ListenerArn: !Ref ListenerPort443
       Priority: 6
-    Type: "AWS::ElasticLoadBalancingV2::ListenerRule"
-
-  ListenerRuleWebAppWss:
-    Condition: IfRunWebApp
-    Properties:
-      Actions:
-        - AuthenticateCognitoConfig:
-            OnUnauthenticatedRequest: authenticate
-            Scope: openid
-            UserPoolArn: !GetAtt "UserPool.Arn"
-            UserPoolClientId: !Ref UserPoolClient
-            UserPoolDomain: !Ref UserPoolDomain
-          Order: 1
-          Type: authenticate-cognito
-        - Type: "forward"
-          TargetGroupArn: !Ref TargetGroupWebAppWss
-          Order: 2
-      Conditions:
-        - Field: "path-pattern"
-          Values:
-            - "/app/ws/*"
-            - "/app/ws"
-      ListenerArn: !Ref ListenerPort443
-      Priority: 5
     Type: "AWS::ElasticLoadBalancingV2::ListenerRule"
 
   ListenerRuleXterm:
@@ -2096,12 +2039,22 @@ Resources:
     Properties:
       ContainerDefinitions:
         - Environment:
+            - Name: SENZING_API_SERVER_ALLOWED_ORIGINS
+              Value: "*"
+            - Name: SENZING_API_SERVER_BIND_ADDR
+              Value: all
+            - Name: SENZING_API_SERVER_ENABLE_ADMIN
+              Value: "true"
             - Name: SENZING_API_SERVER_INIT_JSON
               Value: !GetAtt SsmParameterSenzingEngineConfigurationJson.Value
+            - Name: SENZING_API_SERVER_PORT
+              Value: "8250"
             - Name: SENZING_API_SERVER_SKIP_ENGINE_PRIMING
               Value: "true"
             - Name: SENZING_API_SERVER_SKIP_STARTUP_PERF
               Value: "true"
+            - Name: SENZING_API_SERVER_URL
+              Value: !Sub "http://${LoadBalancerPrivate.DNSName}:8250/api"
             - Name: SENZING_API_SERVER_URL_BASE_PATH
               Value: /api
             - Name: SENZING_API_SERVER_DEBUG
@@ -2130,14 +2083,18 @@ Resources:
                   Fn::Sub: "${DatabaseStack}-database-username"
             - Name: SENZING_ENGINE_CONFIGURATION_JSON
               Value: !GetAtt SsmParameterSenzingEngineConfigurationJson.Value
+            - Name: SENZING_WEB_SERVER_ADMIN_AUTH_MODE
+              Value: NONE
             - Name: SENZING_WEB_SERVER_ADMIN_AUTH_PATH
               Value: "http://localhost:8251/app"
             - Name: SENZING_WEB_SERVER_INTERNAL_URL
               Value: "http://localhost:8251/app"
+            - Name: SENZING_WEB_SERVER_PORT
+              Value: "8251"
             - Name: SENZING_WEB_SERVER_PROXY_LOGLEVEL
               Value: error
-            - Name: SENZING_WEB_SERVER_STREAM_CLIENT_URL
-              Value: !Sub "wss://${LoadBalancerPublic.DNSName}/app/ws"
+            - Name: SENZING_WEB_SERVER_URL
+              Value: !Sub "http://${LoadBalancerPublic.DNSName}:8251/app"
             - Name: SENZING_WEB_SERVER_VIRTUAL_PATH
               Value: /app
           Essential: true
@@ -2158,9 +2115,6 @@ Resources:
               Protocol: tcp
             - ContainerPort: 8251
               HostPort: 8251
-              Protocol: tcp
-            - ContainerPort: 8255
-              HostPort: 8255
               Protocol: tcp
           Privileged: false
           ReadonlyRootFilesystem: false
@@ -2261,7 +2215,6 @@ Resources:
     DependsOn:
       - ListenerPort443
       - ListenerRuleWebApp
-      - ListenerRuleWebAppWss
     Properties:
       Cluster: !Ref EcsCluster
       DesiredCount: 1
@@ -2274,9 +2227,6 @@ Resources:
         - ContainerName: webapp
           ContainerPort: 8251
           TargetGroupArn: !Ref TargetGroupWebApp
-        - ContainerName: webapp
-          ContainerPort: 8255
-          TargetGroupArn: !Ref TargetGroupWebAppWss
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: DISABLED
