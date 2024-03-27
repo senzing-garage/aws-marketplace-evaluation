@@ -181,7 +181,7 @@ Mappings:
     "3.9.0":
       Redoer: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/redoer:2.1.12
       SenzingApiTools: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/senzingapi-tools:3.9.0
-      WebApp: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/web-app-demo:2.4.16
+      WebApp: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/web-app-demo:2.4.17
       Xterm: 709825985650.dkr.ecr.us-east-1.amazonaws.com/senzing-entity-resolution/xterm:1.4.15
 
   Constants:
